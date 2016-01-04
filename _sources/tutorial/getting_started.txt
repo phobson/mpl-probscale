@@ -8,7 +8,7 @@ Installation
 From ``conda``
 ~~~~~~~~~~~~~~
 
-I've uploaded the package to my anaonda channel.
+I've uploaded the package to my anaconda channel.
 
 ``conda install --channel=phobson mpl-probscale``
 
@@ -110,7 +110,7 @@ Before importing:
 
 
 It works after importing. Probability scales default to the standard
-normal distribution. Not that the formatting is is a percentage-based
+normal distribution. Not that the formatting is a percentage-based
 probability.
 
 .. code:: python
