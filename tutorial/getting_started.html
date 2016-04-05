@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Getting started with mpl-probscale. &mdash; probscale 0.1.0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -35,7 +35,7 @@
         <link rel="prev" title="mpl-probscale: Real probability scales for matplotlib" href="../index.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -45,11 +45,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../index.html" class="fa fa-home"> probscale</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> probscale
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -57,17 +73,30 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
+            
+            
+                <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ready-made-probability-plots">Ready-made probability plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-conda">From <code class="docutils literal"><span class="pre">conda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#probabilty-scales">Probabilty Scales</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ready-made-probability-plots">Ready-made probability plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#other-options">Other options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#percentile-and-quanitile-plots">Percentile and Quanitile plots</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -76,10 +105,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -94,20 +123,29 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
     <li>Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/tutorial/getting_started.txt" rel="nofollow"> View page source</a>
+          
+            <a href="../_sources/tutorial/getting_started.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="getting-started-with-mpl-probscale">
 <h1>Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.<a class="headerlink" href="#getting-started-with-mpl-probscale" title="Permalink to this headline">¶</a></h1>
@@ -124,24 +162,26 @@
 to install from source on any platform. To do that, download or clone
 from <a class="reference external" href="https://github.com/phobson/mpl-probscale">github</a>, unzip the
 archive if necessary then do:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd mpl-probscale # or wherever the setup.py got placed
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd mpl-probscale # or wherever the setup.py got placed
 pip install .
 </pre></div>
 </div>
 <p>I recommend <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> over <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> for
 <a class="reference external" href="https://github.com/numpy/numpy/issues/6551">reasons I don&#8217;t fully
 understand</a>.</p>
-<div class="code python highlight-python"><div class="highlight"><pre>import warnings
-warnings.simplefilter(&#39;ignore&#39;)
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>%matplotlib inline
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
-import numpy
-from matplotlib import pyplot
-from scipy import stats
-import seaborn
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span>
 
-clear_bkgd = {&#39;axes.facecolor&#39;:&#39;none&#39;, &#39;figure.facecolor&#39;:&#39;none&#39;}
-seaborn.set(style=&#39;ticks&#39;, context=&#39;notebook&#39;, rc=clear_bkgd)
-%matplotlib inline
+<span class="n">clear_bkgd</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;axes.facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;figure.facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;none&#39;</span><span class="p">}</span>
+<span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">clear_bkgd</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -152,65 +192,63 @@ seaborn.set(style=&#39;ticks&#39;, context=&#39;notebook&#39;, rc=clear_bkgd)
 &#8220;log&#8221; (logarithmic). There are others (e.g., logit, symlog), but I
 haven&#8217;t seen them too much in the wild.</p>
 <p>Linear scales are the default:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/getting_started_3_0.png" src="../_images/getting_started_3_0.png" />
+<img alt="../_images/getting_started_4_0.png" src="../_images/getting_started_4_0.png" />
 <p>Logarithmic scales can work well when your data cover several orders of
 magnitude and don&#8217;t have to be in base 10.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;Base 10&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Base 10&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
 
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="n">basex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">basex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">2</span><span class="o">**-</span><span class="mi">3</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;Base 2&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Base 2&quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
 
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/getting_started_5_0.png" src="../_images/getting_started_5_0.png" />
+<img alt="../_images/getting_started_6_0.png" src="../_images/getting_started_6_0.png" />
 <div class="section" id="probabilty-scales">
 <h3>Probabilty Scales<a class="headerlink" href="#probabilty-scales" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">mpl-probscale</span></code> let&#8217;s you use probability scales. All you need to do
 is import it.</p>
 <p>Before importing:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;prob&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">pyplot</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Unknown scale type &#39;prob&#39;
+<div class="highlight-python"><div class="highlight"><pre><span></span>Unknown scale type &#39;prob&#39;
 </pre></div>
 </div>
-<p>It works after importing. Probability scales default to the standard
-normal distribution. Not that the formatting is a percentage-based
-probability.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">probscale</span>
+<p>To access probability scales, simply import :py:mod:<code class="docutils literal"><span class="pre">probscale</span></code>.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">probscale</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;prob&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">99.5</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Normal probability scale (%)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Normal probability scale (%)&#39;</span><span class="p">)</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/getting_started_10_0.png" src="../_images/getting_started_10_0.png" />
+<img alt="../_images/getting_started_11_0.png" src="../_images/getting_started_11_0.png" />
+<p>Probability scales default to the standard normal distribution (ote that
+the formatting is a percentage-based probability)</p>
 <p>You can even use different probability distributions, though it can be
 tricky. You have to pass a frozen distribution to the <code class="docutils literal"><span class="pre">dist</span></code> kwarg in
 <code class="docutils literal"><span class="pre">ax.set_[x|y]scale</span></code>.</p>
-<p>Here&#8217;s a standard normal scale right next to a beta scale
-(<span class="math">\(\alpha = 1\)</span> and <span class="math">\(\beta = 1\)</span>) for comparison</p>
-<div class="code python highlight-python"><div class="highlight"><pre>import paramnormal
-
-beta1 = paramnormal.beta(α=3, β=2)
-beta2 = paramnormal.beta(α=2, β=7)
+<p>Here&#8217;s a standard normal scale right next to two different beta scales
+for comparison</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>import paramnormal
+seaborn.set(style=&#39;ticks&#39;, context=&#39;notebook&#39;, rc=clear_bkgd)
 
 fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 5), nrows=4)
 
@@ -219,11 +257,13 @@ ax1.set_xlim(left=2, right=98)
 ax1.set_xlabel(&#39;Normal probability scale&#39;)
 ax1.set_yticks([])
 
+beta1 = paramnormal.beta(α=3, β=2)
 ax2.set_xscale(&#39;prob&#39;, dist=beta1)
 ax2.set_xlim(left=2, right=98)
 ax2.set_xlabel(&#39;Beta probability scale (α=3, β=2)&#39;)
 ax2.set_yticks([])
 
+beta2 = paramnormal.beta(α=2, β=7)
 ax3.set_xscale(&#39;prob&#39;, dist=beta2)
 ax3.set_xlim(left=2, right=98)
 ax3.set_xlabel(&#39;Beta probability scale (α=2, β=7)&#39;)
@@ -237,7 +277,7 @@ ax4.set_yticks([])
 seaborn.despine(fig=fig, left=True)
 </pre></div>
 </div>
-<img alt="../_images/getting_started_12_0.png" src="../_images/getting_started_12_0.png" />
+<img alt="../_images/getting_started_13_0.png" src="../_images/getting_started_13_0.png" />
 </div>
 </div>
 <div class="section" id="ready-made-probability-plots">
@@ -247,31 +287,31 @@ make a probability plot of a sample.</p>
 <p>With only the sample data, <code class="docutils literal"><span class="pre">probscale.probplot</span></code> will create a figure,
 compute the plotting position and non-exceedance probabilities, and plot
 everything:</p>
-<div class="code python highlight-python"><div class="highlight"><pre>numpy.random.seed(0)
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>numpy.random.seed(0)
 sample = paramnormal.normal(μ=4, σ=2).rvs(size=37)
 
 fig = probscale.probplot(sample)
 seaborn.despine(fig=fig)
 </pre></div>
 </div>
-<img alt="../_images/getting_started_14_0.png" src="../_images/getting_started_14_0.png" />
+<img alt="../_images/getting_started_15_0.png" src="../_images/getting_started_15_0.png" />
 <p>You should specify the matplotlib axes on which the plot should occur if
 you want to make the plot fancier:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
-<span class="c"># feed in the data</span>
+<span class="c1"># feed in the data</span>
 <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Normal Values&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Non-exceedance probability&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normal Values&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Non-exceedance probability&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/getting_started_16_0.png" src="../_images/getting_started_16_0.png" />
+<img alt="../_images/getting_started_17_0.png" src="../_images/getting_started_17_0.png" />
 <div class="section" id="other-options">
 <h3>Other options<a class="headerlink" href="#other-options" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre>fig, ax = pyplot.subplots(figsize=(3, 7))
+<div class="code python highlight-python"><div class="highlight"><pre><span></span>fig, ax = pyplot.subplots(figsize=(3, 7))
 
 numpy.random.seed(0)
 new_sample = paramnormal.lognormal(μ=2.0, σ=0.75).rvs(size=37)
@@ -292,7 +332,7 @@ ax.set_ylim(bottom=1, top=99)
 seaborn.despine(fig=fig)
 </pre></div>
 </div>
-<img alt="../_images/getting_started_18_0.png" src="../_images/getting_started_18_0.png" />
+<img alt="../_images/getting_started_19_0.png" src="../_images/getting_started_19_0.png" />
 </div>
 <div class="section" id="percentile-and-quanitile-plots">
 <h3>Percentile and Quanitile plots<a class="headerlink" href="#percentile-and-quanitile-plots" title="Permalink to this headline">¶</a></h3>
@@ -300,31 +340,32 @@ seaborn.despine(fig=fig)
 function.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The percentile and probability axes are plotted against the</p>
+<p class="last">The percentile and probability axes are plotted against the
+same values. The difference is only that &#8220;percentiles&#8221;
+are plotted on a linear scale.</p>
 </div>
-<p>same values. The difference is only that &#8220;percentiles&#8221; are plotted on a
-linear scale.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s">&#39;pp&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">&#39;Percentiles&#39;</span><span class="p">)</span>
-<span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s">&#39;qq&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">&#39;Quantiles&#39;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Percentiles&#39;</span><span class="p">)</span>
+<span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Quantiles&#39;</span><span class="p">)</span>
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="../_images/getting_started_20_0.png" src="../_images/getting_started_20_0.png" />
+<img alt="../_images/getting_started_22_0.png" src="../_images/getting_started_22_0.png" />
 </div>
 </div>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../probscale.html" class="btn btn-neutral float-right" title="probscale API Reference">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../probscale.html" class="btn btn-neutral float-right" title="probscale API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="mpl-probscale: Real probability scales for matplotlib"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral" title="mpl-probscale: Real probability scales for matplotlib" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -334,12 +375,13 @@ linear scale.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Paul Hobson (Geosyntec Consultants).
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 

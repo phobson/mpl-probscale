@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>probscale.viz &mdash; probscale 0.1.0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -34,7 +34,7 @@
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -44,11 +44,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../../index.html" class="fa fa-home"> probscale</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> probscale
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -56,29 +72,26 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#ready-made-probability-plots">Ready-made probability plots</a></li>
-</ul>
-</li>
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -93,7 +106,13 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
@@ -102,66 +121,31 @@
     <li>probscale.viz</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+        
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for probscale.viz</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">numpy</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">scale</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
-<span class="kn">from</span> <span class="nn">.probscale</span> <span class="kn">import</span> <span class="n">ProbScale</span><span class="p">,</span> <span class="n">_minimal_norm</span>
+<span class="kn">from</span> <span class="nn">.probscale</span> <span class="kn">import</span> <span class="n">ProbScale</span>
+<span class="kn">from</span> <span class="nn">.probscale</span> <span class="kn">import</span> <span class="n">_minimal_norm</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">validate</span>
 
 
 <span class="n">scale</span><span class="o">.</span><span class="n">register_scale</span><span class="p">(</span><span class="n">ProbScale</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_check_ax_obj</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Checks if a value if an Axes. If None, a new one is created.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">Axes</span><span class="p">):</span>
-        <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;`ax` must be a matplotlib Axes instance or None&quot;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
-
-
-<span class="k">def</span> <span class="nf">_check_fit_arg</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
-    <span class="n">valid_args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_args</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Invalid value for {} ({}). Must be on of {}.&#39;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">argname</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">valid_args</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">arg</span>
-
-
-<span class="k">def</span> <span class="nf">_check_ax_name</span><span class="p">(</span><span class="n">axname</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
-    <span class="n">valid_args</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">axname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_args</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Invalid value for {} ({}). Must be on of {}.&#39;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">argname</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">valid_args</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">axname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-
-<span class="k">def</span> <span class="nf">_check_ax_type</span><span class="p">(</span><span class="n">axtype</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">axtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;pp&#39;</span><span class="p">,</span> <span class="s">&#39;qq&#39;</span><span class="p">,</span> <span class="s">&#39;prob&#39;</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;invalid axtype: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axtype</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">axtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-
-<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s">&#39;prob&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s">&#39;x&#39;</span><span class="p">,</span>
-             <span class="n">otherscale</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+             <span class="n">otherscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
              <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
              <span class="n">scatter_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Probability, percentile, and quantile plots.</span>
@@ -209,83 +193,84 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># check input values</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">_check_ax_obj</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">probax</span> <span class="o">=</span> <span class="n">_check_ax_name</span><span class="p">(</span><span class="n">probax</span><span class="p">,</span> <span class="s">&#39;probax&#39;</span><span class="p">)</span>
+    <span class="c1"># check input values</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axes_object</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">probax</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">probax</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
-    <span class="c"># default values for plotting options</span>
+    <span class="c1"># default values for plotting options</span>
     <span class="n">scatter_kws</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">scatter_kws</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">line_kws</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">line_kws</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">line_kws</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c"># check axtype</span>
-    <span class="n">axtype</span> <span class="o">=</span> <span class="n">_check_ax_type</span><span class="p">(</span><span class="n">axtype</span><span class="p">)</span>
+    <span class="c1"># check axtype</span>
+    <span class="n">axtype</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_type</span><span class="p">(</span><span class="n">axtype</span><span class="p">)</span>
 
-    <span class="c"># compute the plotting positions and sort the data</span>
+    <span class="c1"># compute the plotting positions and sort the data</span>
     <span class="n">qntls</span><span class="p">,</span> <span class="n">datavals</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-    <span class="c"># determine how the probability values should be expressed</span>
-    <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s">&#39;qq&#39;</span><span class="p">:</span>
+    <span class="c1"># determine how the probability values should be expressed</span>
+    <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;qq&#39;</span><span class="p">:</span>
         <span class="n">probvals</span> <span class="o">=</span> <span class="n">qntls</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">probvals</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">qntls</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-    <span class="c"># set up x, y, Axes for probabilities on the x</span>
-    <span class="k">if</span> <span class="n">probax</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
+    <span class="c1"># set up x, y, Axes for probabilities on the x</span>
+    <span class="k">if</span> <span class="n">probax</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">probvals</span><span class="p">,</span> <span class="n">datavals</span>
-        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s">&#39;prob&#39;</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;prob&#39;</span><span class="p">)</span>
-            <span class="n">fitprobs</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span>
+        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
+            <span class="n">fitprobs</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s">&#39;pp&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">otherscale</span><span class="p">)</span>
-        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s">&#39;y&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
 
-    <span class="c"># setup x, y, Axes for probabilities on the y</span>
-    <span class="k">elif</span> <span class="n">probax</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+    <span class="c1"># setup x, y, Axes for probabilities on the y</span>
+    <span class="k">elif</span> <span class="n">probax</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">probvals</span><span class="p">,</span> <span class="n">datavals</span>
-        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s">&#39;prob&#39;</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s">&#39;prob&#39;</span><span class="p">)</span>
-            <span class="n">fitprobs</span> <span class="o">=</span> <span class="s">&#39;y&#39;</span>
+        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
+            <span class="n">fitprobs</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s">&#39;pp&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">otherscale</span><span class="p">)</span>
-        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
 
-    <span class="c"># plot the final ROS data versus the Z-scores</span>
-    <span class="n">linestyle</span> <span class="o">=</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;linestyle&#39;</span><span class="p">,</span> <span class="s">&#39;none&#39;</span><span class="p">)</span>
-    <span class="n">marker</span> <span class="o">=</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;marker&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">)</span>
+    <span class="c1"># plot the final ROS data versus the Z-scores</span>
+    <span class="n">linestyle</span> <span class="o">=</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;linestyle&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;marker&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="o">**</span><span class="n">scatter_kws</span><span class="p">)</span>
 
-    <span class="c"># maybe label the x-axis</span>
+    <span class="c1"># maybe label the x-axis</span>
     <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
 
-    <span class="c"># maybe label the y-axis</span>
+    <span class="c1"># maybe label the y-axis</span>
     <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
 
-    <span class="c"># maybe do a best-fit and plot</span>
+    <span class="c1"># maybe do a best-fit and plot</span>
     <span class="k">if</span> <span class="n">bestfit</span><span class="p">:</span>
         <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="n">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="n">fitprobs</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kws</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
-    <span class="c"># return the figure and maybe results of the best-fit</span>
+    <span class="c1"># return the figure and maybe results of the best-fit</span>
     <span class="k">if</span> <span class="n">return_results</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">qntls</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="o">=</span><span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="o">=</span><span class="n">yhat</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">modelres</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fig</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
 
-</div>
+
 <span class="k">def</span> <span class="nf">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Fits a line to x-y data in various forms (raw, log, prob scales)</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fits a line to x-y data in various forms (linear, log, prob scales).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -316,48 +301,48 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">fitprobs</span> <span class="o">=</span> <span class="n">_check_fit_arg</span><span class="p">(</span><span class="n">fitprobs</span><span class="p">,</span> <span class="s">&quot;fitprobs&quot;</span><span class="p">)</span>
-    <span class="n">fitlogs</span> <span class="o">=</span> <span class="n">_check_fit_arg</span><span class="p">(</span><span class="n">fitlogs</span><span class="p">,</span> <span class="s">&quot;fitlogs&quot;</span><span class="p">)</span>
+    <span class="n">fitprobs</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">fit_argument</span><span class="p">(</span><span class="n">fitprobs</span><span class="p">,</span> <span class="s2">&quot;fitprobs&quot;</span><span class="p">)</span>
+    <span class="n">fitlogs</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">fit_argument</span><span class="p">(</span><span class="n">fitlogs</span><span class="p">,</span> <span class="s2">&quot;fitlogs&quot;</span><span class="p">)</span>
 
-    <span class="c"># maybe set xhat to default values</span>
+    <span class="c1"># maybe set xhat to default values</span>
     <span class="k">if</span> <span class="n">xhat</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">xhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
 
-    <span class="c"># maybe set dist to default value</span>
+    <span class="c1"># maybe set dist to default value</span>
     <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">_minimal_norm</span>
 
-    <span class="c"># maybe compute ppf of x</span>
-    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe compute ppf of x</span>
+    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mf">100.</span><span class="p">)</span>
         <span class="n">xhat</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span><span class="o">/</span><span class="mf">100.</span><span class="p">)</span>
 
-    <span class="c"># maybe compute ppf of y</span>
-    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe compute ppf of y</span>
+    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">y</span>  <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="mf">100.</span><span class="p">)</span>
 
-    <span class="c"># maybe compute log of x</span>
-    <span class="k">if</span> <span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe compute log of x</span>
+    <span class="k">if</span> <span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-    <span class="c"># maybe compute log of y</span>
-    <span class="k">if</span> <span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe compute log of y</span>
+    <span class="k">if</span> <span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="c"># do the best-fit</span>
+    <span class="c1"># do the best-fit</span>
     <span class="n">coeffs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c"># estimate y values</span>
+    <span class="c1"># estimate y values</span>
     <span class="n">yhat</span> <span class="o">=</span> <span class="n">_estimate_from_fit</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                  <span class="n">xlog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">],</span>
-                                  <span class="n">ylog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">])</span>
+                                  <span class="n">xlog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">],</span>
+                                  <span class="n">ylog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">])</span>
 
-    <span class="c"># maybe undo the ppf transform</span>
-    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe undo the ppf transform</span>
+    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">yhat</span> <span class="o">=</span> <span class="mf">100.</span><span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
 
-    <span class="c"># maybe undo ppf transform</span>
-    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;both&#39;</span><span class="p">]:</span>
+    <span class="c1"># maybe undo ppf transform</span>
+    <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">xhat</span> <span class="o">=</span> <span class="mf">100.</span><span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">coeffs</span>
@@ -403,6 +388,7 @@
     <span class="k">return</span> <span class="n">yhat</span>
 </pre></div>
 
+           </div>
           </div>
           <footer>
   
@@ -412,12 +398,13 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Paul Hobson (Geosyntec Consultants).
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 

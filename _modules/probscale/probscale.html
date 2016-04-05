@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>probscale.probscale &mdash; probscale 0.1.0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -34,7 +34,7 @@
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -44,11 +44,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../../index.html" class="fa fa-home"> probscale</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> probscale
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -56,29 +72,26 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#ready-made-probability-plots">Ready-made probability plots</a></li>
-</ul>
-</li>
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -93,7 +106,13 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
@@ -102,14 +121,17 @@
     <li>probscale.probscale</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+        
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for probscale.probscale</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">from</span> <span class="nn">matplotlib.transforms</span> <span class="kn">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">matplotlib.scale</span> <span class="kn">import</span> <span class="n">ScaleBase</span>
@@ -118,8 +140,27 @@
     <span class="n">NullLocator</span><span class="p">,</span>
     <span class="n">Formatter</span><span class="p">,</span>
     <span class="n">NullFormatter</span><span class="p">,</span>
-    <span class="n">FuncFormatter</span>
+    <span class="n">FuncFormatter</span><span class="p">,</span>
 <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_mask_non_positives</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a Numpy array where all values outside ]0, 1[ are</span>
+<span class="sd">    replaced with NaNs. If all values are inside ]0, 1[, the original</span>
+<span class="sd">    array is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="k">def</span> <span class="nf">_clip_non_positives</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-300</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-300</span>
+    <span class="k">return</span> <span class="n">a</span>
 
 
 <span class="k">class</span> <span class="nc">_minimal_norm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -155,7 +196,6 @@
 <span class="sd">        Wikipedia: https://goo.gl/Rtxjme</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">cls</span><span class="o">.</span><span class="n">_approx_inv_erf</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
@@ -168,7 +208,7 @@
         <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cls</span><span class="o">.</span><span class="n">_approx_erf</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 
 
-<div class="viewcode-block" id="ProbFormatter"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbFormatter">[docs]</a><span class="k">class</span> <span class="nc">ProbFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_FormatterMixin</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_sig_figs</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">expthresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">forceint</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Formats a number with the correct number of sig figs.</span>
@@ -199,21 +239,21 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c"># return a string value unaltered</span>
+        <span class="c1"># return a string value unaltered</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-        <span class="c"># check on the number provided</span>
+        <span class="c1"># check on the number provided</span>
         <span class="k">elif</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 
-            <span class="c"># check on the _sig_figs</span>
+            <span class="c1"># check on the _sig_figs</span>
             <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;number of sig figs (n) must be greater than zero&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;number of sig figs (n) must be greater than zero&quot;</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">forceint</span><span class="p">:</span>
-                <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;{:,.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;{:,.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-            <span class="c"># logic to do all of the rounding</span>
+            <span class="c1"># logic to do all of the rounding</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 
@@ -221,69 +261,87 @@
                     <span class="n">decimal_places</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">order</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">decimal_places</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;{0:,.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">decimal_places</span><span class="p">))</span>
+                        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;{0:,.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">decimal_places</span><span class="p">))</span>
 
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;{0:,.</span><span class="si">%d</span><span class="s">f}&#39;</span> <span class="o">%</span> <span class="n">decimal_places</span>
+                        <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;{0:,.</span><span class="si">%d</span><span class="s1">f}&#39;</span> <span class="o">%</span> <span class="n">decimal_places</span>
                         <span class="n">out</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">decimal_places</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
-                    <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;{0:.</span><span class="si">%d</span><span class="s">e}&#39;</span> <span class="o">%</span> <span class="n">decimal_places</span>
+                    <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;{0:.</span><span class="si">%d</span><span class="s1">e}&#39;</span> <span class="o">%</span> <span class="n">decimal_places</span>
                     <span class="n">out</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-        <span class="c"># with NAs and INFs, just return &#39;NA&#39;</span>
+        <span class="c1"># with NAs and INFs, just return &#39;NA&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;NA&#39;</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
 
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sig_figs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">99</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">99</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_sig_figs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="n">x</span><span class="p">)),</span> <span class="mi">6</span><span class="p">))</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sig_figs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">x</span><span class="p">)),</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sig_figs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="s">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
-</div>
-<div class="viewcode-block" id="ProbTransform"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbTransform">[docs]</a><span class="k">class</span> <span class="nc">ProbTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PctFormatter"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.PctFormatter">[docs]</a><span class="k">class</span> <span class="nc">PctFormatter</span><span class="p">(</span><span class="n">_FormatterMixin</span><span class="p">):</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="mi">100</span></div>
+
+
+<div class="viewcode-block" id="ProbFormatter"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbFormatter">[docs]</a><span class="k">class</span> <span class="nc">ProbFormatter</span><span class="p">(</span><span class="n">_FormatterMixin</span><span class="p">):</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<span class="k">class</span> <span class="nc">_ProbTransformMixin</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
     <span class="n">input_dims</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">output_dims</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">is_separable</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">has_inverse</span> <span class="o">=</span> <span class="bp">True</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">nonpos</span><span class="o">=</span><span class="s1">&#39;mask&#39;</span><span class="p">):</span>
         <span class="n">Transform</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span>
+        <span class="k">if</span> <span class="n">as_pct</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="mf">100.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-<div class="viewcode-block" id="ProbTransform.transform_non_affine"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="mf">100.</span><span class="p">)</span>
-</div>
+        <span class="k">if</span> <span class="n">nonpos</span> <span class="o">==</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_nonpos</span> <span class="o">=</span> <span class="n">_mask_non_positives</span>
+        <span class="k">elif</span> <span class="n">nonpos</span> <span class="o">==</span> <span class="s1">&#39;clip&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_nonpos</span> <span class="o">=</span> <span class="n">_clip_non_positives</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`nonpos` muse be either &#39;mask&#39; or &#39;clip&#39;&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ProbTransform"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbTransform">[docs]</a><span class="k">class</span> <span class="nc">ProbTransform</span><span class="p">(</span><span class="n">_ProbTransformMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="ProbTransform.transform_non_affine"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">prob</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">q</span></div>
+
 <div class="viewcode-block" id="ProbTransform.inverted"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbTransform.inverted">[docs]</a>    <span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">InvertedProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QuantileTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">,</span> <span class="n">nonpos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nonpos</span><span class="p">)</span></div></div>
 
-</div></div>
-<div class="viewcode-block" id="InvertedProbTransform"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.InvertedProbTransform">[docs]</a><span class="k">class</span> <span class="nc">InvertedProbTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
-    <span class="n">input_dims</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">output_dims</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">is_separable</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">has_inverse</span> <span class="o">=</span> <span class="bp">True</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span>
-        <span class="n">Transform</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<div class="viewcode-block" id="QuantileTransform"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.QuantileTransform">[docs]</a><span class="k">class</span> <span class="nc">QuantileTransform</span><span class="p">(</span><span class="n">_ProbTransformMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantileTransform.transform_non_affine"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.QuantileTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span>
+        <span class="k">return</span> <span class="n">prob</span></div>
 
-<div class="viewcode-block" id="InvertedProbTransform.transform_non_affine"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.InvertedProbTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.</span>
-</div>
-<div class="viewcode-block" id="InvertedProbTransform.inverted"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.InvertedProbTransform.inverted">[docs]</a>    <span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">ProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+<div class="viewcode-block" id="QuantileTransform.inverted"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.QuantileTransform.inverted">[docs]</a>    <span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">,</span> <span class="n">nonpos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nonpos</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="ProbScale"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbScale">[docs]</a><span class="k">class</span> <span class="nc">ProbScale</span><span class="p">(</span><span class="n">ScaleBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A probability scale for matplotlib Axes.</span>
 
@@ -306,17 +364,23 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;prob&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;prob&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;dist&#39;</span><span class="p">,</span> <span class="n">_minimal_norm</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">ProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="n">_minimal_norm</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;as_pct&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nonpos</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;nonpos&#39;</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">ProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_get_probs</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nobs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_probs</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">as_pct</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns the x-axis labels for a probability plot based on</span>
 <span class="sd">        the number of observations (`nobs`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">as_pct</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mf">100.0</span>
 
         <span class="n">order</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">nobs</span><span class="p">)))</span>
         <span class="n">base_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
@@ -330,29 +394,33 @@
                 <span class="n">lower_fringe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
                 <span class="n">upper_fringe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">9</span><span class="p">])</span>
 
-            <span class="n">new_lower</span> <span class="o">=</span> <span class="n">lower_fringe</span><span class="o">/</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-            <span class="n">new_upper</span> <span class="o">=</span> <span class="n">upper_fringe</span><span class="o">/</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">axis_probs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="n">new_lower</span> <span class="o">=</span> <span class="n">lower_fringe</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">new_upper</span> <span class="o">=</span> <span class="n">upper_fringe</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">axis_probs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
             <span class="n">axis_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">new_lower</span><span class="p">,</span> <span class="n">axis_probs</span><span class="p">,</span> <span class="n">new_upper</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">axis_probs</span>
+        <span class="n">locs</span> <span class="o">=</span> <span class="n">axis_probs</span> <span class="o">/</span> <span class="n">factor</span>
+        <span class="k">return</span> <span class="n">locs</span>
 
 <div class="viewcode-block" id="ProbScale.set_default_locators_and_formatters"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbScale.set_default_locators_and_formatters">[docs]</a>    <span class="k">def</span> <span class="nf">set_default_locators_and_formatters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the locators and formatters to specialized versions for</span>
 <span class="sd">        log scaling.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">FixedLocator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_probs</span><span class="p">(</span><span class="mf">1e10</span><span class="p">)))</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="n">ProbFormatter</span><span class="p">()))</span>
+
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">FixedLocator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_probs</span><span class="p">(</span><span class="mf">1e8</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="n">PctFormatter</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="n">ProbFormatter</span><span class="p">()))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">NullLocator</span><span class="p">())</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_minor_formatter</span><span class="p">(</span><span class="n">NullFormatter</span><span class="p">())</span>
-</div>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_minor_formatter</span><span class="p">(</span><span class="n">NullFormatter</span><span class="p">())</span></div>
+
 <div class="viewcode-block" id="ProbScale.get_transform"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbScale.get_transform">[docs]</a>    <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a :class:`~matplotlib.transforms.Transform` instance</span>
 <span class="sd">        appropriate for the given logarithm base.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span></div>
+
 <div class="viewcode-block" id="ProbScale.limit_range_for_scale"><a class="viewcode-back" href="../../probscale.html#probscale.probscale.ProbScale.limit_range_for_scale">[docs]</a>    <span class="k">def</span> <span class="nf">limit_range_for_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">minpos</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Limit the domain to positive values.</span>
@@ -360,6 +428,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">vmin</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">minpos</span> <span class="ow">or</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">minpos</span> <span class="ow">or</span> <span class="n">vmax</span><span class="p">)</span></div></div>
 </pre></div>
 
+           </div>
           </div>
           <footer>
   
@@ -369,12 +438,13 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2015, Paul Hobson (Geosyntec Consultants).
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 

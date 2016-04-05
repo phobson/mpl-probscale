@@ -31,6 +31,10 @@ understand <https://github.com/numpy/numpy/issues/6551>`__.
 
 .. code:: python
 
+    %matplotlib inline
+
+.. code:: python
+
     import warnings
     warnings.simplefilter('ignore')
     
@@ -41,7 +45,6 @@ understand <https://github.com/numpy/numpy/issues/6551>`__.
     
     clear_bkgd = {'axes.facecolor':'none', 'figure.facecolor':'none'}
     seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
-    %matplotlib inline
 
 Background
 ----------
@@ -59,7 +62,7 @@ Linear scales are the default:
 
 
 
-.. image:: getting_started_files/getting_started_3_0.png
+.. image:: getting_started_files/getting_started_4_0.png
 
 
 Logarithmic scales can work well when your data cover several orders of
@@ -82,8 +85,7 @@ magnitude and don't have to be in base 10.
 
 
 
-
-.. image:: getting_started_files/getting_started_5_0.png
+.. image:: getting_started_files/getting_started_6_0.png
 
 
 Probabilty Scales
@@ -109,9 +111,7 @@ Before importing:
     Unknown scale type 'prob'
 
 
-It works after importing. Probability scales default to the standard
-normal distribution. Not that the formatting is a percentage-based
-probability.
+To access probability scales, simply import :py:mod:``probscale``.
 
 .. code:: python
 
@@ -124,22 +124,23 @@ probability.
 
 
 
-.. image:: getting_started_files/getting_started_10_0.png
+.. image:: getting_started_files/getting_started_11_0.png
 
+
+Probability scales default to the standard normal distribution (ote that
+the formatting is a percentage-based probability)
 
 You can even use different probability distributions, though it can be
 tricky. You have to pass a frozen distribution to the ``dist`` kwarg in
 ``ax.set_[x|y]scale``.
 
-Here's a standard normal scale right next to a beta scale
-(:math:`\alpha = 1` and :math:`\beta = 1`) for comparison
+Here's a standard normal scale right next to two different beta scales
+for comparison
 
 .. code:: python
 
     import paramnormal
-    
-    beta1 = paramnormal.beta(α=3, β=2)
-    beta2 = paramnormal.beta(α=2, β=7)
+    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
     
     fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 5), nrows=4)
     
@@ -148,11 +149,13 @@ Here's a standard normal scale right next to a beta scale
     ax1.set_xlabel('Normal probability scale')
     ax1.set_yticks([])
     
+    beta1 = paramnormal.beta(α=3, β=2)
     ax2.set_xscale('prob', dist=beta1)
     ax2.set_xlim(left=2, right=98)
     ax2.set_xlabel('Beta probability scale (α=3, β=2)')
     ax2.set_yticks([])
     
+    beta2 = paramnormal.beta(α=2, β=7)
     ax3.set_xscale('prob', dist=beta2)
     ax3.set_xlim(left=2, right=98)
     ax3.set_xlabel('Beta probability scale (α=2, β=7)')
@@ -167,8 +170,7 @@ Here's a standard normal scale right next to a beta scale
 
 
 
-
-.. image:: getting_started_files/getting_started_12_0.png
+.. image:: getting_started_files/getting_started_13_0.png
 
 
 Ready-made probability plots
@@ -191,7 +193,7 @@ everything:
 
 
 
-.. image:: getting_started_files/getting_started_14_0.png
+.. image:: getting_started_files/getting_started_15_0.png
 
 
 You should specify the matplotlib axes on which the plot should occur if
@@ -211,7 +213,7 @@ you want to make the plot fancier:
 
 
 
-.. image:: getting_started_files/getting_started_16_0.png
+.. image:: getting_started_files/getting_started_17_0.png
 
 
 Other options
@@ -241,7 +243,7 @@ Other options
 
 
 
-.. image:: getting_started_files/getting_started_18_0.png
+.. image:: getting_started_files/getting_started_19_0.png
 
 
 Percentile and Quanitile plots
@@ -250,9 +252,10 @@ Percentile and Quanitile plots
 For convenience, you can do percetile and quantile plots with the same
 function.
 
-.. note:: The percentile and probability axes are plotted against the
-same values. The difference is only that "percentiles" are plotted on a
-linear scale.
+.. note::
+   The percentile and probability axes are plotted against the
+   same values. The difference is only that "percentiles" 
+   are plotted on a linear scale.
 
 .. code:: python
 
@@ -263,5 +266,5 @@ linear scale.
 
 
 
-.. image:: getting_started_files/getting_started_20_0.png
+.. image:: getting_started_files/getting_started_22_0.png
 
