@@ -1,6 +1,6 @@
 
-Getting started with ``mpl-probscale``.
-=======================================
+Getting started with ``mpl-probscale``
+======================================
 
 Installation
 ------------
@@ -27,7 +27,7 @@ archive if necessary then do:
 
 I recommend ``pip install .`` over ``python setup.py install`` for
 `reasons I don't fully
-understand <https://github.com/numpy/numpy/issues/6551>`__.
+understand <https://github.com/numpy/numpy/issues/6551#issuecomment-150392865cd>`__.
 
 .. code:: python
 
@@ -91,8 +91,8 @@ magnitude and don't have to be in base 10.
 Probabilty Scales
 ~~~~~~~~~~~~~~~~~
 
-``mpl-probscale`` let's you use probability scales. All you need to do
-is import it.
+``mpl-probscale`` lets you use probability scales. All you need to do is
+import it.
 
 Before importing:
 
@@ -111,7 +111,7 @@ Before importing:
     Unknown scale type 'prob'
 
 
-To access probability scales, simply import :py:mod:``probscale``.
+To access probability scales, simply import :mod:``probscale``.
 
 .. code:: python
 
@@ -127,42 +127,41 @@ To access probability scales, simply import :py:mod:``probscale``.
 .. image:: getting_started_files/getting_started_11_0.png
 
 
-Probability scales default to the standard normal distribution (ote that
-the formatting is a percentage-based probability)
+Probability scales default to the standard normal distribution (note
+that the formatting is a percentage-based probability)
 
 You can even use different probability distributions, though it can be
-tricky. You have to pass a frozen distribution to the ``dist`` kwarg in
-``ax.set_[x|y]scale``.
+tricky. You have to pass a frozen distribution from either
+`scipy.stats <http://docs.scipy.org/doc/scipy/reference/stats.html#continuous-distributions>`__
+or `paramnormal <http://phobson.github.io/paramnormal/>`__ to the
+``dist`` kwarg in ``ax.set_[x|y]scale``.
 
-Here's a standard normal scale right next to two different beta scales
-for comparison
+Here's a standard normal scale right next to a different normal scale
+and two beta scales for comparison
 
 .. code:: python
 
-    import paramnormal
-    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
-    
-    fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 5), nrows=4)
+    fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 4), nrows=4)
     
     ax1.set_xscale('prob')
     ax1.set_xlim(left=2, right=98)
-    ax1.set_xlabel('Normal probability scale')
+    ax1.set_xlabel('Normal probability scale, as percents')
     ax1.set_yticks([])
     
-    beta1 = paramnormal.beta(α=3, β=2)
+    beta1 = stats.beta(a=3, b=2)
     ax2.set_xscale('prob', dist=beta1)
     ax2.set_xlim(left=2, right=98)
     ax2.set_xlabel('Beta probability scale (α=3, β=2)')
     ax2.set_yticks([])
     
-    beta2 = paramnormal.beta(α=2, β=7)
+    beta2 = stats.beta(a=2, b=7)
     ax3.set_xscale('prob', dist=beta2)
     ax3.set_xlim(left=2, right=98)
     ax3.set_xlabel('Beta probability scale (α=2, β=7)')
     ax3.set_yticks([])
     
     ax4.set_xlim(left=2, right=98)
-    ax4.set_xticks(ax1.get_xticks()[14:-14])
+    ax4.set_xticks(ax1.get_xticks()[12:-12])
     ax4.set_xlabel('Linear scale (for reference)')
     ax4.set_yticks([])
     
@@ -186,7 +185,7 @@ everything:
 .. code:: python
 
     numpy.random.seed(0)
-    sample = paramnormal.normal(μ=4, σ=2).rvs(size=37)
+    sample = numpy.random.normal(loc=4, scale=2, size=37)
     
     fig = probscale.probplot(sample)
     seaborn.despine(fig=fig)
@@ -224,7 +223,7 @@ Other options
     fig, ax = pyplot.subplots(figsize=(3, 7))
     
     numpy.random.seed(0)
-    new_sample = paramnormal.lognormal(μ=2.0, σ=0.75).rvs(size=37)
+    new_sample = numpy.random.lognormal(mean=2.0, sigma=0.75, size=37)
     
     probscale.probplot(
         new_sample,
@@ -259,12 +258,42 @@ function.
 
 .. code:: python
 
-    fig, (ax1, ax2) = pyplot.subplots(ncols=2, figsize=(7, 2))
+    fig, (ax1, ax2, ax3) = pyplot.subplots(nrows=3, figsize=(5.5, 7))
+    
     probscale.probplot(sample, ax=ax1, axtype='pp', xlabel='Percentiles')
     probscale.probplot(sample, ax=ax2, axtype='qq', xlabel='Quantiles')
+    probscale.probplot(sample, ax=ax3, axtype='prob', xlabel='Probabilities')
+    
+    ax2.set_xlim(left=-2.5, right=2.5)
+    ax3.set_xlim(left=0.5, right=99.5)
+    fig.tight_layout()
     seaborn.despine(fig=fig)
 
 
 
 .. image:: getting_started_files/getting_started_22_0.png
+
+
+Working with seaborn ``FacetGrids``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Good news, everyone. The ``probplot`` function generally works as
+expected with
+`FacetGrids <http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid>`__.
+
+.. code:: python
+
+    plot = (
+        seaborn.load_dataset("tips")
+            .assign(pct=lambda df: 100 * df['tip'] / df['total_bill'])
+            .pipe(seaborn.FacetGrid, hue='time', col='sex', row='smoker', margin_titles=True, aspect=1.75)
+            .map(probscale.probplot, 'pct', bestfit=True, otherscale='log', scatter_kws=dict(alpha=0.75))
+            .add_legend()
+            .set_xlabels('Non-Exceedance Probabilty')
+            .set_ylabels('Tips as percent of total bill')
+    )
+
+
+
+.. image:: getting_started_files/getting_started_24_0.png
 
