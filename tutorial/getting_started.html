@@ -231,7 +231,7 @@ import it.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>Unknown scale type &#39;prob&#39;
 </pre></div>
 </div>
-<p>To access probability scales, simply import :mod:<code class="docutils literal"><span class="pre">probscale</span></code>.</p>
+<p>To access probability scales, simply import <code class="docutils literal"><span class="pre">probscale</span></code>.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">probscale</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
@@ -248,8 +248,8 @@ tricky. You have to pass a frozen distribution from either
 <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/stats.html#continuous-distributions">scipy.stats</a>
 or <a class="reference external" href="http://phobson.github.io/paramnormal/">paramnormal</a> to the
 <code class="docutils literal"><span class="pre">dist</span></code> kwarg in <code class="docutils literal"><span class="pre">ax.set_[x|y]scale</span></code>.</p>
-<p>Here&#8217;s a standard normal scale right next to a different normal scale
-and two beta scales for comparison</p>
+<p>Here&#8217;s a standard normal scale with two different beta scales and a
+linear scale for comparison.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>

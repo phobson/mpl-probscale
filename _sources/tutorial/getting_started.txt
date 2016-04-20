@@ -111,7 +111,7 @@ Before importing:
     Unknown scale type 'prob'
 
 
-To access probability scales, simply import :mod:``probscale``.
+To access probability scales, simply import ``probscale``.
 
 .. code:: python
 
@@ -136,8 +136,8 @@ tricky. You have to pass a frozen distribution from either
 or `paramnormal <http://phobson.github.io/paramnormal/>`__ to the
 ``dist`` kwarg in ``ax.set_[x|y]scale``.
 
-Here's a standard normal scale right next to a different normal scale
-and two beta scales for comparison
+Here's a standard normal scale with two different beta scales and a
+linear scale for comparison.
 
 .. code:: python
 
