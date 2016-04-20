@@ -5,12 +5,17 @@ Getting started with ``mpl-probscale``
 Installation
 ------------
 
-From ``conda``
-~~~~~~~~~~~~~~
+From conda
+~~~~~~~~~~
 
 I've uploaded the package to my anaconda channel.
 
 ``conda install --channel=phobson mpl-probscale``
+
+From pip
+~~~~~~~~
+
+``pip install probscale``
 
 From source
 ~~~~~~~~~~~
