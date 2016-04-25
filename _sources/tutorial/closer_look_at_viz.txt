@@ -1,0 +1,548 @@
+
+A closer look probability plots
+===============================
+
+Overview
+--------
+
+The ``probscale.probplot`` function lets you do a couple of things. They
+are:
+
+1. Creating percentile, quantile, or probability plots.
+2. Placing your probability scale either axis.
+3. Specifying an arbitrary distribution for your probability scale.
+4. Drawing a best-fit line line in linear-probability or log-probability
+   space.
+5. Computing the plotting positions of your data anyway you want.
+6. Using probability axes on seaborn ``FacetGrids``
+
+We'll go over all of these options in this tutorial.
+
+.. code:: python
+
+    %matplotlib inline
+
+.. code:: python
+
+    import numpy
+    from matplotlib import pyplot
+    import seaborn
+    
+    import probscale
+    clear_bkgd = {'axes.facecolor':'none', 'figure.facecolor':'none'}
+    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
+    
+    tips = seaborn.load_dataset("tips")
+    iris = seaborn.load_dataset("iris")
+
+Different plot types
+--------------------
+
+In general, there are three plot types:
+
+1. Percentile, a.k.a. P-P plots
+2. Quantile, a.k.a. Q-Q plots
+3. Probability, a.k.a. Prob Plots
+
+Percentile plots
+~~~~~~~~~~~~~~~~
+
+Percentile plots are the simplest plots. You simply plot the data
+against their plotting positions. The plotting positions are shown on a
+linear scale, but the data can be scaled as appropriate.
+
+If you were doing that from scratch, it would look like this:
+
+.. code:: python
+
+    position, bill = probscale.plot_pos(tips['total_bill'])
+    position *= 100
+    fig, ax = pyplot.subplots(figsize=(6, 3))
+    ax.plot(position, bill, marker='.', linestyle='none', label='Bill amount')
+    ax.set_xlabel('Percentile')
+    ax.set_ylabel('Total Bill (USD)')
+    ax.set_yscale('log')
+    ax.legend()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_4_0.png
+
+
+Using the ``probplot`` function with ``plottype='pp'``, it becomes:
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(6, 3))
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='pp',
+                             datascale='log', label='Bill Amount', 
+                             xlabel='Percentile', ylabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none'))
+    ax.legend()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_6_0.png
+
+
+Quantile plots
+~~~~~~~~~~~~~~
+
+Quantile plots are similar to propbabilty plots. The main differences is
+that plotting positions are converted into quantiles or :math:`Z`-scores
+based on a probability distribution. The default distribution is the
+standard-normal distribution. Using a different distribution is covered
+further down.
+
+Usings the same dataset as a above let's make a quantile plot, again
+from scratch and then using ``probplot``.
+
+.. code:: python
+
+    from scipy import stats
+    
+    position, bill = probscale.plot_pos(tips['total_bill'])
+    quantile = stats.norm.ppf(position)
+    
+    fig, ax = pyplot.subplots(figsize=(6, 3))
+    ax.plot(quantile, bill, marker='.', linestyle='none', label='Bill amount')
+    ax.set_xlabel('Normal Quantiles')
+    ax.set_ylabel('Total Bill (USD)')
+    ax.set_yscale('log')
+    ax.legend()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_8_0.png
+
+
+Using ``probplot``:
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(6, 3))
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='qq',
+                             datascale='log', label='Bill Amount', 
+                             xlabel='Normal Quantiles', ylabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none'))
+    ax.legend()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_10_0.png
+
+
+You'll notice that the shape of the data is straighter on the Q-Q plot
+than the P-P plot. This is due to the transformation that takes place
+when converting the plotting positions to a distribution's quantiles.
+The plot below hopefully illustrates this more clearly. Additionally,
+we'll show how use the ``probax`` option to flip the plot so that the
+P-P/Q-Q/Probability axis is on the y-scale.
+
+.. code:: python
+
+    fig, (ax1, ax2) = pyplot.subplots(figsize=(6, 6), ncols=2, sharex=True)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax1, plottype='pp', probax='y',
+                             datascale='log', label='Bill Amount', 
+                             ylabel='Percentile', xlabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none'))
+    ax.legend()
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax2, plottype='qq', probax='y',
+                             datascale='log', label='Bill Amount', 
+                             ylabel='Normal Quantiles', xlabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none'))
+    ax.legend()
+    fig.tight_layout()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_12_0.png
+
+
+In these case of P-P plots and simple Q-Q plots, the ``probplot``
+function doesn't offer much convencience compared to writing raw
+matplotlib commands. However, this changes when you start making
+probability plots and using more advanced options.
+
+Probability plots
+~~~~~~~~~~~~~~~~~
+
+Visually, the curve of plots on probability and quantile scales should
+be the same. The difference is that the quantiles labeling the axis
+ticks are placed and labeled based on non-exceedance probailities rather
+than the more abstract quantiles of the distribution.
+
+Unsurprisingly, a picture explains this much better. Let's build off of
+the previos plot:
+
+.. code:: python
+
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3, sharex=True)
+    common_opts = dict(
+        probax='y', 
+        datascale='log', 
+        label='Bill Amount', 
+        xlabel='Total Bill (USD)',
+        scatter_kws=dict(marker='.', linestyle='none')
+    )
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax1, 
+                             plottype='pp',
+                             ylabel='percentile', 
+                             **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax2, 
+                             plottype='qq',
+                             ylabel='Normal Quantiles', 
+                             **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax3, 
+                             plottype='prob',
+                             ylabel='Normal Probabilities', 
+                             **common_opts)
+    ax3.set_ylim(bottom=0.13, top=99.87)
+    ax3.legend(loc='upper left')
+    fig.tight_layout()
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_14_0.png
+
+
+Visually, shapes of the curves on the right-most plots are identical.
+The difference is that the y-axis ticks and labels are more "human"
+readable.
+
+In other words, the probability (right) axis gives us the ease of
+finding e.g. the 75th percentile found on percentile (left) axis, and
+illustrates how well the data fit a given distribution like the quantile
+(middle) axes.
+
+Using different distributions for your scales
+---------------------------------------------
+
+When using quantile or probability scales, you can pass a distribution
+from the ``scipy.stats`` module to the ``probplot`` function. When a
+distribution is not provided to the ``dist`` parameter, a standard
+normal distribution is used.
+
+.. code:: python
+
+    common_opts = dict(
+        plottype='prob',
+        probax='y',
+        datascale='log',
+        label='Bill Amount',
+        xlabel='Total Bill (USD)',
+        scatter_kws=dict(marker='+', linestyle='none', mew=1)
+    )
+    
+    alpha = stats.alpha(10)
+    beta = stats.beta(6, 3)
+    
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3)
+    fig = probscale.probplot(tips['total_bill'], ax=ax1, dist=alpha, 
+                             ylabel='Alpha Probabilities', **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax2, dist=beta, 
+                             ylabel='Beta Probabilities', **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax3, dist=None,
+                             ylabel='Normal Probabilities', **common_opts)
+    
+    ax3.legend(loc='lower right')
+    ax3.set_ylim(bottom=0.1, top=99.9)
+    seaborn.despine()
+    fig.tight_layout()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_16_0.png
+
+
+This can also be done for QQ scales:
+
+.. code:: python
+
+    common_opts = dict(
+        plottype='qq',
+        probax='y',
+        datascale='log',
+        label='Bill Amount',
+        xlabel='Total Bill (USD)',
+        scatter_kws=dict(marker='+', linestyle='none', mew=1)
+    )
+    
+    alpha = stats.alpha(10)
+    beta = stats.beta(6, 3)
+    
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3)
+    fig = probscale.probplot(tips['total_bill'], ax=ax1, dist=alpha, 
+                             ylabel='Alpha Quantiles', **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax2, dist=beta, 
+                             ylabel='Beta Quantiles', **common_opts)
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax3, dist=None,
+                             ylabel='Normal Quantiles', **common_opts)
+    
+    ax.legend(loc='lower right')
+    ax.set_ylim(bottom=0.1, top=99.9)
+    seaborn.despine()
+    fig.tight_layout()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_18_0.png
+
+
+Using a specific distribution with a quantile scale can give us an idea
+of how well the data fit that distribution. For instance, let's say we
+have a hunch that the values of the ``total_bill`` column in our dataset
+are normally distributed and their mean and standard deviation are 19.8
+and 8.9, respectively. We could investigate that by create a
+``scipy.stat.norm`` distribution with those parameters and use that
+distribution in the Q-Q plot.
+
+.. code:: python
+
+    def equality_line(ax, label=None):
+        limits = [
+            numpy.min([ax.get_xlim(), ax.get_ylim()]),
+            numpy.max([ax.get_xlim(), ax.get_ylim()]),
+        ]
+        ax.set_xlim(limits)
+        ax.set_ylim(limits)
+        ax.plot(limits, limits, 'k-', alpha=0.75, zorder=0, label=label)
+    
+    norm = stats.norm(loc=21, scale=8)
+    fig, ax = pyplot.subplots(figsize=(5, 5))
+    ax.set_aspect('equal')
+    
+    common_opts = dict(
+        plottype='qq',
+        probax='y',
+        ylabel='Theoretical Quantiles',
+        xlabel='Emperical Quantiles',
+        label='Bill amounts'
+    )
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax, dist=norm, **common_opts)
+    
+    equality_line(ax, label='Guessed Normal Distribution')
+    ax.legend(loc='upper left')
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_20_0.png
+
+
+Hmm. That doesn't look too good. Let's use scipy's fitting functionality
+to try out a lognormal distribution.
+
+.. code:: python
+
+    lognorm_params = stats.lognorm.fit(tips['total_bill'], floc=0)
+    lognorm = stats.lognorm(*lognorm_params)
+    fig, ax = pyplot.subplots(figsize=(5, 5))
+    ax.set_aspect('equal')
+    
+    fig = probscale.probplot(tips['total_bill'], ax=ax, dist=lognorm, **common_opts)
+    
+    equality_line(ax, label='Fit Lognormal Distribution')
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_22_0.png
+
+
+That's a little bit better.
+
+Finding the best distribution is left as an exercise to the reader.
+
+Adding best-fit lines
+---------------------
+
+Adding a best-fit line to a probability plot can provide insight as to
+whether or not a dataset can be characterized by a distribution.
+
+This is simply done with the ``bestfit=True`` option in ``probplot``.
+Behind the scenes, ``probplot`` transforms both the x- and y-data of fed
+to the regression based on the plot type and scale of the data axis
+(controlled via ``datascale``).
+
+Visual attributes of the line can be controled with the ``line_kws``
+parameter. If you want label the best-fit line, that is where you
+specify its label.
+
+The most trivial case is a P-P plot with a linear data axis
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(6, 3))
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='pp', bestfit=True,
+                             label='Bill Amount', xlabel='Percentile', ylabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none', alpha=0.5),
+                             line_kws=dict(label='Best-fit line', linestyle='--', linewidth=2.5))
+    ax.legend(loc='lower right')
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_25_0.png
+
+
+The least trivial case is a probability plot with a log-scaled data
+axes.
+
+As suggested by the section on quantile plots with custom distributions,
+using a normal probability scale with a lognormal data scale provides a
+decent fit (visually speaking).
+
+Note that you still put the probability scale on either the x- or
+y-axis.
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(4, 6))
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='prob', bestfit=True, 
+                             probax='y', datascale='log',label='Bill Amount',
+                             ylabel='Probabilities', xlabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='+', linestyle='none', alpha=0.75, mew=1),
+                             line_kws=dict(label='Best-fit line', linewidth=2.5, zorder=0))
+    ax.legend(loc='lower right')
+    ax.set_ylim(bottom=0.1, top=99.9)
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_27_0.png
+
+
+Tuning the plotting positions
+-----------------------------
+
+The ``probplot`` function calls the :func:`viz.plot_plos` function to compute each dataset's plotting positions.
+
+You should read that function's docstring for more detailed information.
+But the high-level overview is that there are a couple of parameters (``alpha`` and ``beta``) that you can tweak in the plotting positions calculation.
+
+The most common values can be selected via the ``postype`` parameter and are described as follows:
+
+    "type 4" : (0, 1)
+        Linear interpolation of the empirical CDF.
+    "type 5" or "hazen" : (0.5, 0.5)
+        Piecewise linear interpolation.
+    "type 6" or "weibull" : (0, 0)
+        Weibull plotting positions. Unbiased exceedance probability
+        for all distributions. This is will be the default value.
+    "type 7" : (1, 1)
+        The default values in R.
+    "type 8" : (1/3, 1/3)
+        Approximately median-unbiased.
+    "type 9" or "blom" : (0.375, 0.375)
+        Approximately unbiased positions if the data are normally
+        distributed.
+    "median" : (0.3175, 0.3175)
+        Median exceedance probabilities for all distributions
+        (used in ``scipy.stats.probplot``).
+    "apl" or "pwm" : (0.35, 0.35)
+        Used with probability-weighted moments.
+    "cunnane" : (0.4, 0.4)
+        Nearly unbiased quantiles for normally distributed data.
+    "gringorten" : (0.44, 0.44)
+        Used for Gumble distributions.
+        
+These are controlled via the `pp_kws` parameter in `probplot`
+
+.. code:: python
+
+    common_opts = dict(
+        plottype='prob',
+        probax='x',
+        label='Bill Amount',
+        ylabel='Data',
+    )
+    
+    numpy.random.seed(0)
+    x = numpy.random.normal(size=15)
+    
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(6, 6), nrows=3, sharex=True)
+    fig = probscale.probplot(x, ax=ax1, xlabel='Cunnuane (default) plotting positions',
+                             **common_opts)
+    
+    fig = probscale.probplot(x, ax=ax2, xlabel='Weibull plotting positions',
+                             pp_kws=dict(postype='weibull'), **common_opts)
+    
+    fig = probscale.probplot(x, ax=ax3, xlabel='Custom plotting positions',
+                             pp_kws=dict(alpha=0.6, beta=0.1), **common_opts)
+    ax1.set_xlim(left=1, right=99)
+    seaborn.despine()
+    fig.tight_layout()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_30_0.png
+
+
+Mapping probability plots to seaborn `FacetGrids <http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid>`__
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In general, ``probplot`` was written with ``FacetGrids`` in mind. All
+you need to do is specify the data column and other options in the call
+to ``FacetGrid.map``.
+
+Unfortunately the labels don't work out exactly like I want, but it's a
+work in progress.
+
+.. code:: python
+
+    fg = (
+        seaborn.FacetGrid(data=iris, hue='species', aspect=2)
+            .map(probscale.probplot, 'sepal_length')
+            .set_axis_labels(x_var='Probability', y_var='Sepal Length')
+            .add_legend()
+    )
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_32_0.png
+
+
+.. code:: python
+
+    fg = (
+        seaborn.FacetGrid(data=iris, hue='species', aspect=2)
+            .map(probscale.probplot, 'petal_length', plottype='qq', probax='y')
+            .set_ylabels('Quantiles')
+            .add_legend()
+    )
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_33_0.png
+
+
+.. code:: python
+
+    fg = (
+        seaborn.FacetGrid(data=tips, hue='sex', row='smoker', col='time', aspect=1.5, margin_titles=True)
+            .map(probscale.probplot, 'total_bill', probax='y', bestfit=True)
+            .set_ylabels('Probability')
+            .add_legend()
+    )
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_34_0.png
+

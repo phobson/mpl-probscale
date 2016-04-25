@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viz API Reference &mdash; probscale 0.1.1 documentation</title>
+  <title>viz API Reference &mdash; probscale 0.1.2 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="probscale 0.1.1 documentation" href="index.html"/>
+    <link rel="top" title="probscale 0.1.2 documentation" href="index.html"/>
         <link rel="next" title="probscale API Reference" href="probscale.html"/>
-        <link rel="prev" title="Getting started with mpl-probscale" href="tutorial/getting_started.html"/> 
+        <link rel="prev" title="A closer look probability plots" href="tutorial/closer_look_at_viz.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
             
           
@@ -83,6 +83,7 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_viz.html">A closer look probability plots</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
@@ -137,7 +138,7 @@
 <span id="viz-api-reference"></span><h1><code class="docutils literal"><span class="pre">viz</span></code> API Reference<a class="headerlink" href="#module-probscale.viz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="probscale.viz.probplot">
-<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>color=None</em>, <em>label=None</em>, <em>axtype='prob'</em>, <em>probax='x'</em>, <em>otherscale='linear'</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>bestfit=False</em>, <em>return_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>color=None</em>, <em>label=None</em>, <em>datascale='linear'</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>bestfit=False</em>, <em>return_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Probability, percentile, and quantile plots.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -152,17 +153,7 @@
 <div><p>The Axes on which to plot. If one is not provided, a new Axes
 will be created.</p>
 </div></blockquote>
-<p><strong>color</strong> : valid matplotlib color specification, optional</p>
-<blockquote>
-<div><p>If provided, this value will be added to the <code class="docutils literal"><span class="pre">scatter_kws</span></code>
-and <code class="docutils literal"><span class="pre">line_kws</span></code> dictionary under the &#8220;color&#8221; key.</p>
-</div></blockquote>
-<p><strong>label</strong> : string, optional</p>
-<blockquote>
-<div><p>If provided, this legend label is applied to the scatter series
-of the probability plot.</p>
-</div></blockquote>
-<p><strong>axtype</strong> : string (default = &#8216;prob&#8217;)</p>
+<p><strong>plottype</strong> : string (default = &#8216;prob&#8217;)</p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Type of plot to be created. Options are:</dt>
@@ -174,12 +165,27 @@ of the probability plot.</p>
 </dd>
 </dl>
 </div></blockquote>
+<p><strong>dist</strong> : scipy distribution, optional</p>
+<blockquote>
+<div><p>A distribtion to compute the scale&#8217;s tick positions. If not
+specified, a normal distribution will be used.</p>
+</div></blockquote>
 <p><strong>probax</strong> : string, optional (default = &#8216;x&#8217;)</p>
 <blockquote>
 <div><p>The axis (&#8216;x&#8217; or &#8216;y&#8217;) that will serve as the probability (or
 quantile) axis.</p>
 </div></blockquote>
-<p><strong>otherscale</strong> : string, optional (default = &#8216;log&#8217;)</p>
+<p><strong>color</strong> : valid matplotlib color specification, optional</p>
+<blockquote>
+<div><p>If provided, this value will be added to the <code class="docutils literal"><span class="pre">scatter_kws</span></code>
+and <code class="docutils literal"><span class="pre">line_kws</span></code> dictionary under the &#8220;color&#8221; key.</p>
+</div></blockquote>
+<p><strong>label</strong> : string, optional</p>
+<blockquote>
+<div><p>If provided, this legend label is applied to the scatter series
+of the probability plot.</p>
+</div></blockquote>
+<p><strong>datascale</strong> : string, optional (default = &#8216;log&#8217;)</p>
 <blockquote>
 <div><p>Scale for the other axis that is not</p>
 </div></blockquote>
@@ -192,6 +198,11 @@ quantile) axis.</p>
 <div><p>Specifies whether a best-fit line should be added to the
 plot.</p>
 </div></blockquote>
+<p><strong>return_results</strong> : bool (default = False)</p>
+<blockquote>
+<div><p>If True a dictionary of results of is returned along with the
+figure.</p>
+</div></blockquote>
 <p><strong>scatter_kws, line_kws</strong> : dictionary, optional</p>
 <blockquote>
 <div><p>Dictionary of keyword arguments passed directly to <code class="docutils literal"><span class="pre">ax.plot</span></code>
@@ -201,11 +212,6 @@ when drawing the scatter points and best-fit line, respectively.</p>
 <blockquote>
 <div><p>Dictionary of keyword arguments passed directly to
 <code class="docutils literal"><span class="pre">viz.plot_pos</span></code>.</p>
-</div></blockquote>
-<p><strong>return_results</strong> : bool (default = False)</p>
-<blockquote>
-<div><p>If True a dictionary of results of is returned along with the
-figure.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -328,7 +334,7 @@ through the <cite>postype</cite> parameter are insufficient.</p>
         <a href="probscale.html" class="btn btn-neutral float-right" title="probscale API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorial/getting_started.html" class="btn btn-neutral" title="Getting started with mpl-probscale" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorial/closer_look_at_viz.html" class="btn btn-neutral" title="A closer look probability plots" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -359,7 +365,7 @@ through the <cite>postype</cite> parameter are insufficient.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.1',
+            VERSION:'0.1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

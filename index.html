@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mpl-probscale: Real probability scales for matplotlib &mdash; probscale 0.1.1 documentation</title>
+  <title>mpl-probscale: Real probability scales for matplotlib &mdash; probscale 0.1.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.1 documentation" href="#"/>
+    <link rel="top" title="probscale 0.1.2 documentation" href="#"/>
         <link rel="next" title="Getting started with mpl-probscale" href="tutorial/getting_started.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
             
           
@@ -82,6 +82,7 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_viz.html">A closer look probability plots</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
@@ -137,13 +138,17 @@
 <p><a class="reference external" href="https://github.com/phobson/mpl-probscale">https://github.com/phobson/mpl-probscale</a></p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="with-conda">
-<h3>With conda<a class="headerlink" href="#with-conda" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">mpl-probscale</span> <span class="pre">--channel=phobson</span></code></p>
-</div>
-<div class="section" id="with-pip">
-<h3>With pip<a class="headerlink" href="#with-pip" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="official-releases">
+<h3>Official releases<a class="headerlink" href="#official-releases" title="Permalink to this headline">¶</a></h3>
+<p>Official releases are available through the conda-forge channel or pip:</p>
+<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">mpl-probscale</span> <span class="pre">--channel=conda-forge</span></code></p>
+<p>or</p>
 <p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">probscale</span></code></p>
+</div>
+<div class="section" id="development-builds">
+<h3>Development builds<a class="headerlink" href="#development-builds" title="Permalink to this headline">¶</a></h3>
+<p>Development builds are available through my conda channel:</p>
+<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">mpl-probscale</span> <span class="pre">--channel=phobson</span></code></p>
 </div>
 </div>
 <div class="section" id="quickstart">
@@ -174,6 +179,15 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial/getting_started.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/getting_started.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/getting_started.html#ready-made-probability-plots">Ready-made probability plots</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_viz.html">A closer look probability plots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#different-plot-types">Different plot types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#using-different-distributions-for-your-scales">Using different distributions for your scales</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#adding-best-fit-lines">Adding best-fit lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#tuning-the-plotting-positions">Tuning the plotting positions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#mapping-probability-plots-to-seaborn-facetgrids">Mapping probability plots to seaborn FacetGrids</a></li>
 </ul>
 </li>
 </ul>
@@ -247,7 +261,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.1',
+            VERSION:'0.1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

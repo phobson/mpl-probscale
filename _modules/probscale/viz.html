@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>probscale.viz &mdash; probscale 0.1.1 documentation</title>
+  <title>probscale.viz &mdash; probscale 0.1.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.1 documentation" href="../../index.html"/>
+    <link rel="top" title="probscale 0.1.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
             
           
@@ -82,6 +82,7 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_viz.html">A closer look probability plots</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
@@ -138,10 +139,10 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">validate</span>
 
 
-<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span>
-             <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">otherscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-             <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">scatter_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-             <span class="n">line_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pp_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">datascale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+             <span class="n">scatter_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pp_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Probability, percentile, and quantile plots.</span>
 
 <span class="sd">    Parameters</span>
@@ -151,36 +152,39 @@
 <span class="sd">    ax : matplotlib axes, optional</span>
 <span class="sd">        The Axes on which to plot. If one is not provided, a new Axes</span>
 <span class="sd">        will be created.</span>
+<span class="sd">    plottype : string (default = &#39;prob&#39;)</span>
+<span class="sd">        Type of plot to be created. Options are:</span>
+<span class="sd">           - &#39;prob&#39;: probabilty plot</span>
+<span class="sd">           - &#39;pp&#39;: percentile plot</span>
+<span class="sd">           - &#39;qq&#39;: quantile plot</span>
+<span class="sd">    dist : scipy distribution, optional</span>
+<span class="sd">        A distribtion to compute the scale&#39;s tick positions. If not</span>
+<span class="sd">        specified, a normal distribution will be used.</span>
+<span class="sd">    probax : string, optional (default = &#39;x&#39;)</span>
+<span class="sd">        The axis (&#39;x&#39; or &#39;y&#39;) that will serve as the probability (or</span>
+<span class="sd">        quantile) axis.</span>
 <span class="sd">    color : valid matplotlib color specification, optional</span>
 <span class="sd">        If provided, this value will be added to the ``scatter_kws``</span>
 <span class="sd">        and ``line_kws`` dictionary under the &quot;color&quot; key.</span>
 <span class="sd">    label : string, optional</span>
 <span class="sd">        If provided, this legend label is applied to the scatter series</span>
 <span class="sd">        of the probability plot.</span>
-<span class="sd">    axtype : string (default = &#39;prob&#39;)</span>
-<span class="sd">        Type of plot to be created. Options are:</span>
-<span class="sd">           - &#39;prob&#39;: probabilty plot</span>
-<span class="sd">           - &#39;pp&#39;: percentile plot</span>
-<span class="sd">           - &#39;qq&#39;: quantile plot</span>
-<span class="sd">    probax : string, optional (default = &#39;x&#39;)</span>
-<span class="sd">        The axis (&#39;x&#39; or &#39;y&#39;) that will serve as the probability (or</span>
-<span class="sd">        quantile) axis.</span>
-<span class="sd">    otherscale : string, optional (default = &#39;log&#39;)</span>
+<span class="sd">    datascale : string, optional (default = &#39;log&#39;)</span>
 <span class="sd">        Scale for the other axis that is not</span>
 <span class="sd">    xlabel, ylabel : string, optional</span>
 <span class="sd">        Axis labels for the plot.</span>
 <span class="sd">    bestfit : bool, optional (default is False)</span>
 <span class="sd">        Specifies whether a best-fit line should be added to the</span>
 <span class="sd">        plot.</span>
+<span class="sd">    return_results : bool (default = False)</span>
+<span class="sd">        If True a dictionary of results of is returned along with the</span>
+<span class="sd">        figure.</span>
 <span class="sd">    scatter_kws, line_kws : dictionary, optional</span>
 <span class="sd">        Dictionary of keyword arguments passed directly to ``ax.plot``</span>
 <span class="sd">        when drawing the scatter points and best-fit line, respectively.</span>
 <span class="sd">    pp_kws : dictionary, optional</span>
 <span class="sd">        Dictionary of keyword arguments passed directly to</span>
 <span class="sd">        ``viz.plot_pos``.</span>
-<span class="sd">    return_results : bool (default = False)</span>
-<span class="sd">        If True a dictionary of results of is returned along with the</span>
-<span class="sd">        figure.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -202,6 +206,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">_minimal_norm</span>
+
     <span class="c1"># check input values</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axes_object</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
     <span class="n">probax</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">probax</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
@@ -218,15 +225,15 @@
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">scatter_kws</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
 
-    <span class="c1"># check axtype</span>
-    <span class="n">axtype</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_type</span><span class="p">(</span><span class="n">axtype</span><span class="p">)</span>
+    <span class="c1"># check plottype</span>
+    <span class="n">plottype</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_type</span><span class="p">(</span><span class="n">plottype</span><span class="p">)</span>
 
     <span class="c1"># compute the plotting positions and sort the data</span>
     <span class="n">probs</span><span class="p">,</span> <span class="n">datavals</span> <span class="o">=</span> <span class="n">plot_pos</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">pp_kws</span><span class="p">)</span>
-    <span class="n">qntls</span> <span class="o">=</span> <span class="n">_minimal_norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+    <span class="n">qntls</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
 
     <span class="c1"># determine how the probability values should be expressed</span>
-    <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;qq&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">plottype</span> <span class="o">==</span> <span class="s1">&#39;qq&#39;</span><span class="p">:</span>
         <span class="n">probvals</span> <span class="o">=</span> <span class="n">qntls</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">probvals</span> <span class="o">=</span> <span class="n">probs</span> <span class="o">*</span> <span class="mi">100</span>
@@ -234,30 +241,30 @@
     <span class="c1"># set up x, y, Axes for probabilities on the x</span>
     <span class="k">if</span> <span class="n">probax</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">probvals</span><span class="p">,</span> <span class="n">datavals</span>
-        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plottype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plottype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">otherscale</span><span class="p">)</span>
-        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">datascale</span><span class="p">)</span>
+        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span> <span class="k">if</span> <span class="n">datascale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
 
     <span class="c1"># setup x, y, Axes for probabilities on the y</span>
     <span class="k">elif</span> <span class="n">probax</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">probvals</span><span class="p">,</span> <span class="n">datavals</span>
-        <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plottype</span> <span class="o">==</span> <span class="s1">&#39;prob&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fitprobs</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="n">axtype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plottype</span> <span class="o">==</span> <span class="s1">&#39;pp&#39;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">otherscale</span><span class="p">)</span>
-        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span> <span class="k">if</span> <span class="n">otherscale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">datascale</span><span class="p">)</span>
+        <span class="n">fitlogs</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span> <span class="k">if</span> <span class="n">datascale</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span> <span class="k">else</span> <span class="bp">None</span>
 
     <span class="c1"># plot the final ROS data versus the Z-scores</span>
     <span class="n">linestyle</span> <span class="o">=</span> <span class="n">scatter_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;linestyle&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
@@ -274,7 +281,7 @@
 
     <span class="c1"># maybe do a best-fit and plot</span>
     <span class="k">if</span> <span class="n">bestfit</span><span class="p">:</span>
-        <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="n">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="n">fitprobs</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">)</span>
+        <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="n">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="n">fitprobs</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kws</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
@@ -536,7 +543,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.1',
+            VERSION:'0.1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

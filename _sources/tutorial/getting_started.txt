@@ -5,16 +5,25 @@ Getting started with ``mpl-probscale``
 Installation
 ------------
 
+``mpl-probscale`` is developed on Python 3.5. It is also tested on
+Python 3.4 and even 2.7 (for the time being).
+
 From conda
 ~~~~~~~~~~
 
-I've uploaded the package to my anaconda channel.
+Official releases of ``mpl-probscale`` can be found on conda-forge:
+
+``conda install --channel=conda-forge mpl-probscale``
+
+Fairly recent builds of the development verions are available on my
+channel:
 
 ``conda install --channel=phobson mpl-probscale``
 
-From pip
-~~~~~~~~
+From PyPI
+~~~~~~~~~
 
+Official source releases are also available on PyPI
 ``pip install probscale``
 
 From source
@@ -233,9 +242,9 @@ Other options
     probscale.probplot(
         new_sample,
         ax=ax,
-        probax='y',        # flip the plot
-        otherscale='log',  # scale of the non-probability axis
-        bestfit=True,      # draw a best-fit line
+        probax='y', # flip the plot
+        datascale='log', # scale of the non-probability axis
+        bestfit=True, # draw a best-fit line
         xlabel='Lognormal Values',  # labels and markers...
         ylabel='Non-exceedance probability',
         scatter_kws=dict(marker='d', zorder=2, mew=1.25, mec='w', markersize=10),
@@ -265,9 +274,9 @@ function.
 
     fig, (ax1, ax2, ax3) = pyplot.subplots(nrows=3, figsize=(5.5, 7))
     
-    probscale.probplot(sample, ax=ax1, axtype='pp', xlabel='Percentiles')
-    probscale.probplot(sample, ax=ax2, axtype='qq', xlabel='Quantiles')
-    probscale.probplot(sample, ax=ax3, axtype='prob', xlabel='Probabilities')
+    probscale.probplot(sample, ax=ax1, plottype='pp', xlabel='Percentiles')
+    probscale.probplot(sample, ax=ax2, plottype='qq', xlabel='Quantiles')
+    probscale.probplot(sample, ax=ax3, plottype='prob', xlabel='Probabilities')
     
     ax2.set_xlim(left=-2.5, right=2.5)
     ax3.set_xlim(left=0.5, right=99.5)
@@ -291,12 +300,12 @@ expected with
     plot = (
         seaborn.load_dataset("tips")
             .assign(pct=lambda df: 100 * df['tip'] / df['total_bill'])
-            .pipe(seaborn.FacetGrid, hue='time', col='sex', row='smoker', margin_titles=True, aspect=1.75)
-            .map(probscale.probplot, 'pct', bestfit=True, otherscale='log', scatter_kws=dict(alpha=0.75))
+            .pipe(seaborn.FacetGrid, hue='sex', col='time', row='smoker', margin_titles=True, aspect=1.75)
+            .map(probscale.probplot, 'pct', bestfit=True, scatter_kws=dict(alpha=0.75), probax='y')
             .add_legend()
-            .set_xlabels('Non-Exceedance Probabilty')
-            .set_ylabels('Tips as percent of total bill')
-    )
+            .set_ylabels('Non-Exceedance Probabilty')
+            .set_xlabels('Tips as percent of total bill')
+    ).set(ylim=(0.5, 99.5))
 
 
 
