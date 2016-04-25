@@ -85,8 +85,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_viz.html">A closer look probability plots</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API and Source Reference</a></li>
 </ul>
 
             
@@ -139,7 +138,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">validate</span>
 
 
-<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../api/viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
              <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">datascale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
              <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
              <span class="n">scatter_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pp_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -294,7 +293,7 @@
         <span class="k">return</span> <span class="n">fig</span></div>
 
 
-<div class="viewcode-block" id="plot_pos"><a class="viewcode-back" href="../../viz.html#probscale.viz.plot_pos">[docs]</a><span class="k">def</span> <span class="nf">plot_pos</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">postype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_pos"><a class="viewcode-back" href="../../api/viz.html#probscale.viz.plot_pos">[docs]</a><span class="k">def</span> <span class="nf">plot_pos</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">postype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the plotting positions for a dataset. Heavily borrows from</span>
 <span class="sd">    ``scipy.stats.mstats.plotting_positions``.</span>
