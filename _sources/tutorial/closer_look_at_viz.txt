@@ -24,6 +24,9 @@ We'll go over all of these options in this tutorial.
 
 .. code:: python
 
+    import warnings
+    warnings.simplefilter('ignore')
+    
     import numpy
     from matplotlib import pyplot
     import seaborn
@@ -34,13 +37,6 @@ We'll go over all of these options in this tutorial.
     
     tips = seaborn.load_dataset("tips")
     iris = seaborn.load_dataset("iris")
-
-
-.. parsed-literal::
-
-    /home/paul/miniconda/envs/pscale/lib/python3.5/site-packages/IPython/html.py:14: ShimWarning: The `IPython.html` package has been deprecated. You should import from `notebook` instead. `IPython.html.widgets` has moved to `ipywidgets`.
-      "`IPython.html.widgets` has moved to `ipywidgets`.", ShimWarning)
-
 
 Different plot types
 --------------------
