@@ -84,11 +84,11 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_viz.html">A closer look probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API and Source Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
 </ul>
 </li>
@@ -114,7 +114,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -268,29 +268,29 @@ values can also be access via the <code class="docutils literal"><span class="pr
 <code class="docutils literal"><span class="pre">postype</span></code> values (alpha, beta) are:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt>&#8220;type 4&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0, 1)</span></dt>
-<dd>Linear interpolation of the empirical CDF.</dd>
-<dt>&#8220;type 5&#8221; or &#8220;hazen&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.5, 0.5)</span></dt>
-<dd>Piecewise linear interpolation.</dd>
-<dt>&#8220;type 6&#8221; or &#8220;weibull&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0, 0)</span></dt>
-<dd>Weibull plotting positions. Unbiased exceedance probability
+<dt>&#8220;type 4&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0, 1)</span><dd>Linear interpolation of the empirical CDF.</dd>
+<dt>&#8220;type 5&#8221; or &#8220;hazen&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.5, 0.5)</span><dd>Piecewise linear interpolation.</dd>
+<dt>&#8220;type 6&#8221; or &#8220;weibull&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0, 0)</span><dd>Weibull plotting positions. Unbiased exceedance probability
 for all distributions. This is will be the default value.</dd>
-<dt>&#8220;type 7&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(1, 1)</span></dt>
-<dd>The default values in R.</dd>
-<dt>&#8220;type 8&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(1/3, 1/3)</span></dt>
-<dd>Approximately median-unbiased.</dd>
-<dt>&#8220;type 9&#8221; or &#8220;blom&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.375, 0.375)</span></dt>
-<dd>Approximately unbiased positions if the data are normally
+<dt>&#8220;type 7&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(1, 1)</span><dd>The default values in R.</dd>
+<dt>&#8220;type 8&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(1/3, 1/3)</span><dd>Approximately median-unbiased.</dd>
+<dt>&#8220;type 9&#8221; or &#8220;blom&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.375, 0.375)</span><dd>Approximately unbiased positions if the data are normally
 distributed.</dd>
-<dt>&#8220;median&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.3175, 0.3175)</span></dt>
-<dd>Median exceedance probabilities for all distributions
+<dt>&#8220;median&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.3175, 0.3175)</span><dd>Median exceedance probabilities for all distributions
 (used in <code class="docutils literal"><span class="pre">scipy.stats.probplot</span></code>).</dd>
-<dt>&#8220;apl&#8221; or &#8220;pwm&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.35, 0.35)</span></dt>
-<dd>Used with probability-weighted moments.</dd>
-<dt>&#8220;cunnane&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.4, 0.4)</span></dt>
-<dd>Nearly unbiased quantiles for normally distributed data.</dd>
-<dt>&#8220;gringorten&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">(0.44, 0.44)</span></dt>
-<dd>Used for Gumble distributions.</dd>
+<dt>&#8220;apl&#8221; or &#8220;pwm&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.35, 0.35)</span><dd>Used with probability-weighted moments.</dd>
+<dt>&#8220;cunnane&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.4, 0.4)</span><dd>Nearly unbiased quantiles for normally distributed data.</dd>
+<dt>&#8220;gringorten&#8221;</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">(0.44, 0.44)</span><dd>Used for Gumble distributions.</dd>
 </dl>
 </div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
