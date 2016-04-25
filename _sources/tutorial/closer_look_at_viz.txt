@@ -175,9 +175,9 @@ Probability plots
 ~~~~~~~~~~~~~~~~~
 
 Visually, the curve of plots on probability and quantile scales should
-be the same. The difference is that the quantiles labeling the axis
-ticks are placed and labeled based on non-exceedance probailities rather
-than the more abstract quantiles of the distribution.
+be the same. The difference is that the axis ticks are placed and
+labeled based on non-exceedance probailities rather than the more
+abstract quantiles of the distribution.
 
 Unsurprisingly, a picture explains this much better. Let's build off of
 the previos plot:
