@@ -442,28 +442,28 @@ But the high-level overview is that there are a couple of parameters (``alpha`` 
 
 The most common values can be selected via the ``postype`` parameter and are described as follows:
 
-    "type 4" : (0, 1)
+    "type 4" (α=2, β=1)
         Linear interpolation of the empirical CDF.
-    "type 5" or "hazen" : (0.5, 0.5)
+    "type 5" or "hazen" (α=0.5, β=0.5)
         Piecewise linear interpolation.
-    "type 6" or "weibull" : (0, 0)
+    "type 6" or "weibull" (α=0, β=0)
         Weibull plotting positions. Unbiased exceedance probability
         for all distributions. This is will be the default value.
-    "type 7" : (1, 1)
+    "type 7" (α=1, β=1)
         The default values in R.
-    "type 8" : (1/3, 1/3)
+    "type 8" (α=1/3, β=1/3)
         Approximately median-unbiased.
-    "type 9" or "blom" : (0.375, 0.375)
+    "type 9" or "blom" (α=0.375, β=0.375)
         Approximately unbiased positions if the data are normally
         distributed.
-    "median" : (0.3175, 0.3175)
+    "median" (α=0.3175, β=0.3175)
         Median exceedance probabilities for all distributions
         (used in ``scipy.stats.probplot``).
-    "apl" or "pwm" : (0.35, 0.35)
+    "apl" or "pwm" (α=0.35, β=0.35)
         Used with probability-weighted moments.
-    "cunnane" : (0.4, 0.4)
+    "cunnane" (α=0.4, β=0.4)
         Nearly unbiased quantiles for normally distributed data.
-    "gringorten" : (0.44, 0.44)
+    "gringorten" (α=0.44, β=0.44)
         Used for Gumble distributions.
         
 These are controlled via the `pp_kws` parameter in `probplot`
