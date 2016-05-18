@@ -157,27 +157,23 @@ linear scale for comparison.
 
     fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 4), nrows=4)
     
+    for ax in [ax1, ax2, ax3, ax4]:
+        ax.set_xlim(left=2, right=98)
+        ax.set_yticks([])
+    
     ax1.set_xscale('prob')
-    ax1.set_xlim(left=2, right=98)
     ax1.set_xlabel('Normal probability scale, as percents')
-    ax1.set_yticks([])
     
     beta1 = stats.beta(a=3, b=2)
     ax2.set_xscale('prob', dist=beta1)
-    ax2.set_xlim(left=2, right=98)
     ax2.set_xlabel('Beta probability scale (α=3, β=2)')
-    ax2.set_yticks([])
     
     beta2 = stats.beta(a=2, b=7)
     ax3.set_xscale('prob', dist=beta2)
-    ax3.set_xlim(left=2, right=98)
     ax3.set_xlabel('Beta probability scale (α=2, β=7)')
-    ax3.set_yticks([])
     
-    ax4.set_xlim(left=2, right=98)
     ax4.set_xticks(ax1.get_xticks()[12:-12])
     ax4.set_xlabel('Linear scale (for reference)')
-    ax4.set_yticks([])
     
     seaborn.despine(fig=fig, left=True)
 

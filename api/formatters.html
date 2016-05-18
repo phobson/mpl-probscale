@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; probscale 0.1.2 documentation</title>
+  <title>formatters API Reference &mdash; probscale 0.1.2 documentation</title>
   
 
   
@@ -107,7 +107,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -115,9 +115,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>Overview: module code</li>
+    <li><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="../_sources/api/formatters.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,12 +129,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="probscale/formatters.html">probscale.formatters</a></li>
-<li><a href="probscale/probscale.html">probscale.probscale</a></li>
-<li><a href="probscale/transforms.html">probscale.transforms</a></li>
-<li><a href="probscale/viz.html">probscale.viz</a></li>
-</ul>
+  <blockquote id="formatters-auto">
+<div>The <code class="docutils literal"><span class="pre">formatters</span></code> API</div></blockquote>
+<div class="section" id="module-probscale.formatters">
+<span id="formatters-api-reference"></span><h1><code class="docutils literal"><span class="pre">formatters</span></code> API Reference<a class="headerlink" href="#module-probscale.formatters" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="probscale.formatters.PctFormatter">
+<em class="property">class </em><code class="descclassname">probscale.formatters.</code><code class="descname">PctFormatter</code><a class="reference internal" href="../_modules/probscale/formatters.html#PctFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.formatters.PctFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.formatters._FormatterMixin</span></code></p>
+<p>Formatter class for MPL axes to display probalities as percentages.</p>
+<dl class="attribute">
+<dt id="probscale.formatters.PctFormatter.factor">
+<code class="descname">factor</code><em class="property"> = 1.0</em><a class="headerlink" href="#probscale.formatters.PctFormatter.factor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="probscale.formatters.PctFormatter.offset">
+<code class="descname">offset</code><em class="property"> = 2</em><a class="headerlink" href="#probscale.formatters.PctFormatter.offset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="probscale.formatters.PctFormatter.top">
+<code class="descname">top</code><em class="property"> = 100</em><a class="headerlink" href="#probscale.formatters.PctFormatter.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="probscale.formatters.ProbFormatter">
+<em class="property">class </em><code class="descclassname">probscale.formatters.</code><code class="descname">ProbFormatter</code><a class="reference internal" href="../_modules/probscale/formatters.html#ProbFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.formatters.ProbFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.formatters._FormatterMixin</span></code></p>
+<p>Formatter class for MPL axes to display probalities as decimals.</p>
+<dl class="attribute">
+<dt id="probscale.formatters.ProbFormatter.factor">
+<code class="descname">factor</code><em class="property"> = 100.0</em><a class="headerlink" href="#probscale.formatters.ProbFormatter.factor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="probscale.formatters.ProbFormatter.offset">
+<code class="descname">offset</code><em class="property"> = 0</em><a class="headerlink" href="#probscale.formatters.ProbFormatter.offset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="probscale.formatters.ProbFormatter.top">
+<code class="descname">top</code><em class="property"> = 1</em><a class="headerlink" href="#probscale.formatters.ProbFormatter.top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
 
            </div>
           </div>

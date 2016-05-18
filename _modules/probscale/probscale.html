@@ -145,6 +145,12 @@
 
 
 <span class="k">class</span> <span class="nc">_minimal_norm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A basic implmentation of a normal distribution, minimally</span>
+<span class="sd">    API-complient with scipt.stats.norm</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">_A</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mf">4.0</span><span class="p">)))</span>
 
     <span class="nd">@classmethod</span>
@@ -204,10 +210,16 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from matplotlib import pyplot</span>
-<span class="sd">    &gt;&gt;&gt; import probscale</span>
-<span class="sd">    &gt;&gt;&gt; fig, ax = pyplot.subplots()</span>
-<span class="sd">    &gt;&gt;&gt; ax.set_xscale(&#39;prob&#39;)</span>
+<span class="sd">    The most basic use:</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :context: close-figs</span>
+
+<span class="sd">        &gt;&gt;&gt; from matplotlib import pyplot</span>
+<span class="sd">        &gt;&gt;&gt; import probscale</span>
+<span class="sd">        &gt;&gt;&gt; fig, ax = pyplot.subplots()</span>
+<span class="sd">        &gt;&gt;&gt; ax.set_xlim(left=0.2, right=99.9)</span>
+<span class="sd">        &gt;&gt;&gt; ax.set_xscale(&#39;prob&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -244,6 +256,7 @@
             <span class="n">new_lower</span> <span class="o">=</span> <span class="n">lower_fringe</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
             <span class="n">new_upper</span> <span class="o">=</span> <span class="n">upper_fringe</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">axis_probs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
             <span class="n">axis_probs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">new_lower</span><span class="p">,</span> <span class="n">axis_probs</span><span class="p">,</span> <span class="n">new_upper</span><span class="p">])</span>
+
         <span class="n">locs</span> <span class="o">=</span> <span class="n">axis_probs</span> <span class="o">/</span> <span class="n">factor</span>
         <span class="k">return</span> <span class="n">locs</span>
 
