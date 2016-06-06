@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>probscale.probscale &mdash; probscale 0.1.2 documentation</title>
+  <title>probscale.probscale &mdash; probscale 0.2.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.2 documentation" href="../../index.html"/>
+    <link rel="top" title="probscale 0.2.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.2.0
               </div>
             
           
@@ -83,6 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API and Source Reference</a></li>
@@ -217,9 +218,9 @@
 
 <span class="sd">        &gt;&gt;&gt; from matplotlib import pyplot</span>
 <span class="sd">        &gt;&gt;&gt; import probscale</span>
-<span class="sd">        &gt;&gt;&gt; fig, ax = pyplot.subplots()</span>
-<span class="sd">        &gt;&gt;&gt; ax.set_xlim(left=0.2, right=99.9)</span>
-<span class="sd">        &gt;&gt;&gt; ax.set_xscale(&#39;prob&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; fig, ax = pyplot.subplots(figsize=(4, 7))</span>
+<span class="sd">        &gt;&gt;&gt; ax.set_ylim(bottom=0.5, top=99.5)</span>
+<span class="sd">        &gt;&gt;&gt; ax.set_yscale(&#39;prob&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -319,7 +320,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.2',
+            VERSION:'0.2.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mpl-probscale: Real probability scales for matplotlib &mdash; probscale 0.1.2 documentation</title>
+  <title>mpl-probscale: Real probability scales for matplotlib &mdash; probscale 0.2.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.2 documentation" href="#"/>
+    <link rel="top" title="probscale 0.2.0 documentation" href="#"/>
         <link rel="next" title="Getting started with mpl-probscale" href="tutorial/getting_started.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.2.0
               </div>
             
           
@@ -83,6 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API and Source Reference</a></li>
@@ -186,8 +187,13 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#different-plot-types">Different plot types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#using-different-distributions-for-your-scales">Using different distributions for your scales</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#adding-best-fit-lines">Adding best-fit lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#controlling-the-aesthetics-of-the-plot-elements">Controlling the aesthetics of the plot elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#tuning-the-plotting-positions">Tuning the plotting positions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_viz.html#mapping-probability-plots-to-seaborn-facetgrids">Mapping probability plots to seaborn FacetGrids</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/closer_look_at_plot_pos.html#looking-at-normal-vs-weibull-scales-cunnane-vs-weibull-plotting-positions">Looking at normal vs Weibull scales + Cunnane vs Weibull plotting positions</a></li>
 </ul>
 </li>
 </ul>
@@ -210,6 +216,9 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API and Source Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/formatters.html"><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/transforms.html"><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/validate.html"><code class="docutils literal"><span class="pre">validate</span></code> API Reference</a></li>
 </ul>
 </li>
 </ul>
@@ -263,7 +272,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.2',
+            VERSION:'0.2.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

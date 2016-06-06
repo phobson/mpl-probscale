@@ -33,8 +33,9 @@ We'll go over all of these options in this tutorial.
     
     import probscale
     clear_bkgd = {'axes.facecolor':'none', 'figure.facecolor':'none'}
-    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
+    seaborn.set(style='ticks', context='talk', color_codes=True, rc=clear_bkgd)
     
+    # load up some example data from the seaborn package
     tips = seaborn.load_dataset("tips")
     iris = seaborn.load_dataset("iris")
 
@@ -65,7 +66,7 @@ If you were doing that from scratch, it would look like this:
     ax.set_xlabel('Percentile')
     ax.set_ylabel('Total Bill (USD)')
     ax.set_yscale('log')
-    ax.legend()
+    ax.legend(loc='upper left')
     seaborn.despine()
 
 
@@ -78,11 +79,9 @@ Using the ``probplot`` function with ``plottype='pp'``, it becomes:
 .. code:: python
 
     fig, ax = pyplot.subplots(figsize=(6, 3))
-    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='pp',
-                             datascale='log', label='Bill Amount', 
-                             xlabel='Percentile', ylabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='.', linestyle='none'))
-    ax.legend()
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='pp', datascale='log',
+                             problabel='Percentile', datalabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
     seaborn.despine()
 
 
@@ -99,8 +98,8 @@ based on a probability distribution. The default distribution is the
 standard-normal distribution. Using a different distribution is covered
 further down.
 
-Usings the same dataset as a above let's make a quantile plot, again
-from scratch and then using ``probplot``.
+Usings the same dataset as a above let's make a quantile plot. Like
+above, we'll do it from scratch and then using ``probplot``.
 
 .. code:: python
 
@@ -114,7 +113,7 @@ from scratch and then using ``probplot``.
     ax.set_xlabel('Normal Quantiles')
     ax.set_ylabel('Total Bill (USD)')
     ax.set_yscale('log')
-    ax.legend()
+    ax.legend(loc='upper left')
     seaborn.despine()
 
 
@@ -127,11 +126,10 @@ Using ``probplot``:
 .. code:: python
 
     fig, ax = pyplot.subplots(figsize=(6, 3))
-    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='qq',
-                             datascale='log', label='Bill Amount', 
-                             xlabel='Normal Quantiles', ylabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='.', linestyle='none'))
-    ax.legend()
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='qq', datascale='log', 
+                             problabel='Normal Quantiles', datalabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
+    ax.legend(loc='upper left')
     seaborn.despine()
 
 
@@ -151,16 +149,13 @@ P-P/Q-Q/Probability axis is on the y-scale.
     fig, (ax1, ax2) = pyplot.subplots(figsize=(6, 6), ncols=2, sharex=True)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax1, plottype='pp', probax='y',
-                             datascale='log', label='Bill Amount', 
-                             ylabel='Percentile', xlabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='.', linestyle='none'))
-    ax.legend()
+                             datascale='log', problabel='Percentile', datalabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
     
     fig = probscale.probplot(tips['total_bill'], ax=ax2, plottype='qq', probax='y',
-                             datascale='log', label='Bill Amount', 
-                             ylabel='Normal Quantiles', xlabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='.', linestyle='none'))
-    ax.legend()
+                             datascale='log', problabel='Normal Quantiles',datalabel='Total Bill (USD)',
+                             scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
+    ax.legend(loc='upper left')
     fig.tight_layout()
     seaborn.despine()
 
@@ -191,27 +186,25 @@ the previos plot:
     common_opts = dict(
         probax='y', 
         datascale='log', 
-        label='Bill Amount', 
-        xlabel='Total Bill (USD)',
+        datalabel='Total Bill (USD)',
         scatter_kws=dict(marker='.', linestyle='none')
     )
     
     fig = probscale.probplot(tips['total_bill'], ax=ax1, 
                              plottype='pp',
-                             ylabel='percentile', 
+                             problabel='percentile', 
                              **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax2, 
                              plottype='qq',
-                             ylabel='Normal Quantiles', 
+                             problabel='Normal Quantiles', 
                              **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax3, 
                              plottype='prob',
-                             ylabel='Normal Probabilities', 
+                             problabel='Normal Probabilities', 
                              **common_opts)
     ax3.set_ylim(bottom=0.13, top=99.87)
-    ax3.legend(loc='upper left')
     fig.tight_layout()
     seaborn.despine()
 
@@ -243,26 +236,24 @@ normal distribution is used.
         plottype='prob',
         probax='y',
         datascale='log',
-        label='Bill Amount',
-        xlabel='Total Bill (USD)',
+        datalabel='Total Bill (USD)',
         scatter_kws=dict(marker='+', linestyle='none', mew=1)
     )
     
     alpha = stats.alpha(10)
     beta = stats.beta(6, 3)
     
-    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3)
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3, sharey=True)
     fig = probscale.probplot(tips['total_bill'], ax=ax1, dist=alpha, 
-                             ylabel='Alpha Probabilities', **common_opts)
+                             problabel='Alpha Probabilities', **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax2, dist=beta, 
-                             ylabel='Beta Probabilities', **common_opts)
+                             problabel='Beta Probabilities', **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax3, dist=None,
-                             ylabel='Normal Probabilities', **common_opts)
+                             problabel='Normal Probabilities', **common_opts)
     
-    ax3.legend(loc='lower right')
-    ax3.set_ylim(bottom=0.1, top=99.9)
+    ax3.set_ylim(bottom=0.2, top=99.8)
     seaborn.despine()
     fig.tight_layout()
 
@@ -279,8 +270,7 @@ This can also be done for QQ scales:
         plottype='qq',
         probax='y',
         datascale='log',
-        label='Bill Amount',
-        xlabel='Total Bill (USD)',
+        datalabel='Total Bill (USD)',
         scatter_kws=dict(marker='+', linestyle='none', mew=1)
     )
     
@@ -289,15 +279,15 @@ This can also be done for QQ scales:
     
     fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(9, 6), ncols=3)
     fig = probscale.probplot(tips['total_bill'], ax=ax1, dist=alpha, 
-                             ylabel='Alpha Quantiles', **common_opts)
+                             problabel='Alpha Quantiles', **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax2, dist=beta, 
-                             ylabel='Beta Quantiles', **common_opts)
+                             problabel='Beta Quantiles', **common_opts)
     
     fig = probscale.probplot(tips['total_bill'], ax=ax3, dist=None,
-                             ylabel='Normal Quantiles', **common_opts)
+                             problabel='Normal Quantiles', **common_opts)
     
-    ax.legend(loc='lower right')
+    ax.legend(loc='upper left')
     ax.set_ylim(bottom=0.1, top=99.9)
     seaborn.despine()
     fig.tight_layout()
@@ -332,16 +322,16 @@ distribution in the Q-Q plot.
     
     common_opts = dict(
         plottype='qq',
-        probax='y',
-        ylabel='Theoretical Quantiles',
-        xlabel='Emperical Quantiles',
-        label='Bill amounts'
+        probax='x',
+        problabel='Theoretical Quantiles',
+        datalabel='Emperical Quantiles',
+        scatter_kws=dict(label='Bill amounts')
     )
     
     fig = probscale.probplot(tips['total_bill'], ax=ax, dist=norm, **common_opts)
     
     equality_line(ax, label='Guessed Normal Distribution')
-    ax.legend(loc='upper left')
+    ax.legend(loc='lower right')
     seaborn.despine()
 
 
@@ -362,6 +352,7 @@ to try out a lognormal distribution.
     fig = probscale.probplot(tips['total_bill'], ax=ax, dist=lognorm, **common_opts)
     
     equality_line(ax, label='Fit Lognormal Distribution')
+    ax.legend(loc='lower right')
     seaborn.despine()
 
 
@@ -394,10 +385,10 @@ The most trivial case is a P-P plot with a linear data axis
 
     fig, ax = pyplot.subplots(figsize=(6, 3))
     fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='pp', bestfit=True,
-                             label='Bill Amount', xlabel='Percentile', ylabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='.', linestyle='none', alpha=0.5),
-                             line_kws=dict(label='Best-fit line', linestyle='--', linewidth=2.5))
-    ax.legend(loc='lower right')
+                             problabel='Percentile', datalabel='Total Bill (USD)',
+                             scatter_kws=dict(label='Bill Amount'),
+                             line_kws=dict(label='Best-fit line'))
+    ax.legend(loc='upper left')
     seaborn.despine()
 
 
@@ -418,12 +409,11 @@ y-axis.
 .. code:: python
 
     fig, ax = pyplot.subplots(figsize=(4, 6))
-    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='prob', bestfit=True, 
-                             probax='y', datascale='log',label='Bill Amount',
-                             ylabel='Probabilities', xlabel='Total Bill (USD)',
-                             scatter_kws=dict(marker='+', linestyle='none', alpha=0.75, mew=1),
-                             line_kws=dict(label='Best-fit line', linewidth=2.5, zorder=0))
-    ax.legend(loc='lower right')
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='prob', probax='y', bestfit=True, 
+                             datascale='log', problabel='Probabilities', datalabel='Total Bill (USD)',
+                             scatter_kws=dict(label='Bill Amount'),
+                             line_kws=dict(label='Best-fit line'))
+    ax.legend(loc='upper left')
     ax.set_ylim(bottom=0.1, top=99.9)
     seaborn.despine()
 
@@ -431,6 +421,61 @@ y-axis.
 
 .. image:: closer_look_at_viz_files/closer_look_at_viz_27_0.png
 
+
+Controlling the aesthetics of the plot elements
+-----------------------------------------------
+
+As it has been hinted in the examples above, the ``probplot`` function
+takes two dictionaries to customize the data series and the best-fit
+line (``scatter_kws`` and ``line_kws``, respectively. These dictionaries
+are passed directly to the ``plot`` method of current axes.
+
+By default, the data series assumes that ``linestyle='none'`` and
+``marker='o'``. These can be overwritten through ``scatter_kws``
+
+Revisting the previous example, we can customize it like so:
+
+.. code:: python
+
+    scatter_options = dict(
+        marker='^',
+        markerfacecolor='none',
+        markeredgecolor='firebrick',
+        markeredgewidth=1.25,
+        linestyle='none',
+        alpha=0.35,
+        zorder=5,
+        label='Meal Cost ($)'
+    )
+    
+    line_options = dict(
+        dashes=(10,2,5,2,10,2),
+        color='0.25',
+        linewidth=3,
+        zorder=10,
+        label='Best-fit line'
+    ) 
+    
+    fig, ax = pyplot.subplots(figsize=(4, 6))
+    fig = probscale.probplot(tips['total_bill'], ax=ax, plottype='prob', probax='y', bestfit=True, 
+                             datascale='log', problabel='Probabilities', datalabel='Total Bill (USD)',
+                             scatter_kws=scatter_options, line_kws=line_options)
+    ax.legend(loc='upper left')
+    ax.set_ylim(bottom=0.1, top=99.9)
+    seaborn.despine()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_29_0.png
+
+
+.. note::
+   The ``probplot`` function can take two additional aesthetic parameters:
+   `color` and `label`. If provided, `color` will override the marker face color
+   and line color options of the `scatter_kws` and `line_kws` parameters, respectively.
+   Similarly, the label of the scatter series will be overridden by the explicit parameter.
+   It is not recommended that `color` and `label` are used. They exist primarily for 
+   compatibility with the seaborn package.
 
 Tuning the plotting positions
 -----------------------------
@@ -442,15 +487,17 @@ But the high-level overview is that there are a couple of parameters (``alpha`` 
 
 The most common values can be selected via the ``postype`` parameter and are described as follows:
 
-    "type 4" (α=2, β=1)
+    "type 4" (α=0, β=1)
         Linear interpolation of the empirical CDF.
     "type 5" or "hazen" (α=0.5, β=0.5)
         Piecewise linear interpolation.
     "type 6" or "weibull" (α=0, β=0)
         Weibull plotting positions. Unbiased exceedance probability
-        for all distributions. This is will be the default value.
+        for all distributions. Recommended for hydrologic applications.
     "type 7" (α=1, β=1)
-        The default values in R.
+        The default values in R. Not recommended with probability
+        scales as the min and max data points get plotting positions
+        of 0 and 1, respectively, and therefore cannot be shown.
     "type 8" (α=1/3, β=1/3)
         Approximately median-unbiased.
     "type 9" or "blom" (α=0.375, β=0.375)
@@ -463,31 +510,33 @@ The most common values can be selected via the ``postype`` parameter and are des
         Used with probability-weighted moments.
     "cunnane" (α=0.4, β=0.4)
         Nearly unbiased quantiles for normally distributed data.
+        This is the default value.
     "gringorten" (α=0.44, β=0.44)
         Used for Gumble distributions.
         
 These are controlled via the `pp_kws` parameter in `probplot`
+and are discussed in much more detail in the next tutorial.
+
 
 .. code:: python
 
     common_opts = dict(
         plottype='prob',
         probax='x',
-        label='Bill Amount',
-        ylabel='Data',
+        datalabel='Data',
     )
     
     numpy.random.seed(0)
     x = numpy.random.normal(size=15)
     
     fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(6, 6), nrows=3, sharex=True)
-    fig = probscale.probplot(x, ax=ax1, xlabel='Cunnuane (default) plotting positions',
+    fig = probscale.probplot(x, ax=ax1, problabel='Cunnuane (default) plotting positions',
                              **common_opts)
     
-    fig = probscale.probplot(x, ax=ax2, xlabel='Weibull plotting positions',
+    fig = probscale.probplot(x, ax=ax2, problabel='Weibull plotting positions',
                              pp_kws=dict(postype='weibull'), **common_opts)
     
-    fig = probscale.probplot(x, ax=ax3, xlabel='Custom plotting positions',
+    fig = probscale.probplot(x, ax=ax3, problabel='Custom plotting positions',
                              pp_kws=dict(alpha=0.6, beta=0.1), **common_opts)
     ax1.set_xlim(left=1, right=99)
     seaborn.despine()
@@ -495,7 +544,7 @@ These are controlled via the `pp_kws` parameter in `probplot`
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_30_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_33_0.png
 
 
 Mapping probability plots to seaborn `FacetGrids <http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid>`__
@@ -519,7 +568,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_32_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_35_0.png
 
 
 .. code:: python
@@ -533,7 +582,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_33_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_36_0.png
 
 
 .. code:: python
@@ -547,5 +596,5 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_34_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_37_0.png
 

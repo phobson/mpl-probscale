@@ -58,7 +58,7 @@ understand <https://github.com/numpy/numpy/issues/6551#issuecomment-150392865cd>
     import seaborn
     
     clear_bkgd = {'axes.facecolor':'none', 'figure.facecolor':'none'}
-    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
+    seaborn.set(style='ticks', context='talk', color_codes=True, rc=clear_bkgd)
 
 Background
 ----------
@@ -108,7 +108,7 @@ Probabilty Scales
 ``mpl-probscale`` lets you use probability scales. All you need to do is
 import it.
 
-Before importing:
+Before importing, there is no probability scale available in matplotlib:
 
 .. code:: python
 
@@ -125,7 +125,7 @@ Before importing:
     Unknown scale type 'prob'
 
 
-To access probability scales, simply import ``probscale``.
+To access probability scales, simply import the ``probscale`` module.
 
 .. code:: python
 
@@ -155,7 +155,7 @@ linear scale for comparison.
 
 .. code:: python
 
-    fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 4), nrows=4)
+    fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(9, 5), nrows=4)
     
     for ax in [ax1, ax2, ax3, ax4]:
         ax.set_xlim(left=2, right=98)
@@ -206,13 +206,12 @@ everything:
 
 
 You should specify the matplotlib axes on which the plot should occur if
-you want to make the plot fancier:
+you want to customize the plot using matplotlib commands directly:
 
 .. code:: python
 
     fig, ax = pyplot.subplots(figsize=(7, 3))
     
-    # feed in the data
     probscale.probplot(sample, ax=ax)
     
     ax.set_ylabel('Normal Values')
@@ -225,8 +224,8 @@ you want to make the plot fancier:
 .. image:: getting_started_files/getting_started_17_0.png
 
 
-Other options
-~~~~~~~~~~~~~
+Lots of other options are directly accessible from the ``probplot``
+function signature.
 
 .. code:: python
 
@@ -241,8 +240,8 @@ Other options
         probax='y', # flip the plot
         datascale='log', # scale of the non-probability axis
         bestfit=True, # draw a best-fit line
-        xlabel='Lognormal Values',  # labels and markers...
-        ylabel='Non-exceedance probability',
+        datalabel='Lognormal Values',  # labels and markers...
+        problabel='Non-exceedance probability',
         scatter_kws=dict(marker='d', zorder=2, mew=1.25, mec='w', markersize=10),
         line_kws=dict(color='0.17', linewidth=2.5, zorder=0, alpha=0.75),
     )
@@ -268,11 +267,11 @@ function.
 
 .. code:: python
 
-    fig, (ax1, ax2, ax3) = pyplot.subplots(nrows=3, figsize=(5.5, 7))
+    fig, (ax1, ax2, ax3) = pyplot.subplots(nrows=3, figsize=(8, 7))
     
-    probscale.probplot(sample, ax=ax1, plottype='pp', xlabel='Percentiles')
-    probscale.probplot(sample, ax=ax2, plottype='qq', xlabel='Quantiles')
-    probscale.probplot(sample, ax=ax3, plottype='prob', xlabel='Probabilities')
+    probscale.probplot(sample, ax=ax1, plottype='pp', problabel='Percentiles')
+    probscale.probplot(sample, ax=ax2, plottype='qq', problabel='Quantiles')
+    probscale.probplot(sample, ax=ax3, plottype='prob', problabel='Probabilities')
     
     ax2.set_xlim(left=-2.5, right=2.5)
     ax3.set_xlim(left=0.5, right=99.5)

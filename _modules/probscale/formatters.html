@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>probscale.formatters &mdash; probscale 0.1.2 documentation</title>
+  <title>probscale.formatters &mdash; probscale 0.2.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.2 documentation" href="../../index.html"/>
+    <link rel="top" title="probscale 0.2.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.2.0
               </div>
             
           
@@ -83,6 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API and Source Reference</a></li>
@@ -162,19 +163,22 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; print(_sig_figs(1247.15, 3))</span>
-<span class="sd">               1250</span>
-<span class="sd">        &gt;&gt;&gt; print(_sig_figs(1247.15, 7))</span>
-<span class="sd">               1247.150</span>
+<span class="sd">        &gt;&gt;&gt; _sig_figs(1247.15, 3)</span>
+<span class="sd">        &#39;1250&#39;</span>
+<span class="sd">        &gt;&gt;&gt; _sig_figs(1247.15, 7)</span>
+<span class="sd">        &#39;1247.150&#39;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># return a string value unaltered</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_sig_figs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">n</span><span class="p">,</span> <span class="n">expthresh</span><span class="o">=</span><span class="n">expthresh</span><span class="p">,</span> <span class="n">forceint</span><span class="o">=</span><span class="n">forceint</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
 
         <span class="c1"># check on the number provided</span>
-        <span class="k">elif</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 
             <span class="c1"># check on the _sig_figs</span>
             <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -224,6 +228,17 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Formatter class for MPL axes to display probalities as percentages.</span>
 
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from probscale import formatters</span>
+<span class="sd">    &gt;&gt;&gt; fmt = formatters.PctFormatter()</span>
+<span class="sd">    &gt;&gt;&gt; fmt(0.2)</span>
+<span class="sd">    &#39;0.2&#39;</span>
+<span class="sd">    &gt;&gt;&gt; fmt(10)</span>
+<span class="sd">    &#39;10&#39;</span>
+<span class="sd">    &gt;&gt;&gt; fmt(99.999)</span>
+<span class="sd">    &#39;99.999&#39;</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -235,6 +250,19 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Formatter class for MPL axes to display probalities as decimals.</span>
 
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from probscale import formatters</span>
+<span class="sd">    &gt;&gt;&gt; fmt = formatters.ProbFormatter()</span>
+<span class="sd">    &gt;&gt;&gt; fmt(0.01)</span>
+<span class="sd">    &#39;0.01&#39;</span>
+<span class="sd">    &gt;&gt;&gt; fmt(0.2)</span>
+<span class="sd">    &#39;0.20&#39;</span>
+<span class="sd">    &gt;&gt;&gt; try:</span>
+<span class="sd">    ...    fmt(10.5)</span>
+<span class="sd">    ... except(ValueError):</span>
+<span class="sd">    ...     print(&#39;formatter out of bounds&#39;)</span>
+<span class="sd">    formatter out of bounds</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">factor</span> <span class="o">=</span> <span class="mf">100.0</span>
@@ -273,7 +301,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1.2',
+            VERSION:'0.2.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viz API Reference &mdash; probscale 0.1.2 documentation</title>
+  <title>viz API Reference &mdash; probscale 0.2.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.1.2 documentation" href="../index.html"/>
+    <link rel="top" title="probscale 0.2.0 documentation" href="../index.html"/>
         <link rel="up" title="API and Source Reference" href="../api.html"/>
         <link rel="next" title="probscale API Reference" href="probscale.html"/>
         <link rel="prev" title="API and Source Reference" href="../api.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.2.0
               </div>
             
           
@@ -85,11 +85,15 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API and Source Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formatters.html"><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms.html"><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validate.html"><code class="docutils literal"><span class="pre">validate</span></code> API Reference</a></li>
 </ul>
 </li>
 </ul>
@@ -144,7 +148,7 @@
 <span id="viz-api-reference"></span><h1><code class="docutils literal"><span class="pre">viz</span></code> API Reference<a class="headerlink" href="#module-probscale.viz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="probscale.viz.probplot">
-<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>color=None</em>, <em>label=None</em>, <em>datascale='linear'</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>bestfit=False</em>, <em>return_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>problabel=None</em>, <em>datascale='linear'</em>, <em>datalabel=None</em>, <em>bestfit=False</em>, <em>return_best_fit_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em>, <em>color=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Probability, percentile, and quantile plots.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -161,50 +165,39 @@ will be created.</p>
 </div></blockquote>
 <p><strong>plottype</strong> : string (default = &#8216;prob&#8217;)</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>Type of plot to be created. Options are:</dt>
-<dd><ul class="first last simple">
+<div><p>Type of plot to be created. Options are:</p>
+<blockquote>
+<div><ul class="simple">
 <li>&#8216;prob&#8217;: probabilty plot</li>
 <li>&#8216;pp&#8217;: percentile plot</li>
 <li>&#8216;qq&#8217;: quantile plot</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </div></blockquote>
 <p><strong>dist</strong> : scipy distribution, optional</p>
 <blockquote>
 <div><p>A distribtion to compute the scale&#8217;s tick positions. If not
-specified, a normal distribution will be used.</p>
+specified, a standard normal distribution will be used.</p>
 </div></blockquote>
 <p><strong>probax</strong> : string, optional (default = &#8216;x&#8217;)</p>
 <blockquote>
 <div><p>The axis (&#8216;x&#8217; or &#8216;y&#8217;) that will serve as the probability (or
 quantile) axis.</p>
 </div></blockquote>
-<p><strong>color</strong> : valid matplotlib color specification, optional</p>
+<p><strong>problabel, datalabel</strong> : string, optional</p>
 <blockquote>
-<div><p>If provided, this value will be added to the <code class="docutils literal"><span class="pre">scatter_kws</span></code>
-and <code class="docutils literal"><span class="pre">line_kws</span></code> dictionary under the &#8220;color&#8221; key.</p>
-</div></blockquote>
-<p><strong>label</strong> : string, optional</p>
-<blockquote>
-<div><p>If provided, this legend label is applied to the scatter series
-of the probability plot.</p>
+<div><p>Axis labels for the probability/quantile and data axes
+respectively.</p>
 </div></blockquote>
 <p><strong>datascale</strong> : string, optional (default = &#8216;log&#8217;)</p>
 <blockquote>
 <div><p>Scale for the other axis that is not</p>
 </div></blockquote>
-<p><strong>xlabel, ylabel</strong> : string, optional</p>
-<blockquote>
-<div><p>Axis labels for the plot.</p>
-</div></blockquote>
 <p><strong>bestfit</strong> : bool, optional (default is False)</p>
 <blockquote>
-<div><p>Specifies whether a best-fit line should be added to the
-plot.</p>
+<div><p>Specifies whether a best-fit line should be added to the plot.</p>
 </div></blockquote>
-<p><strong>return_results</strong> : bool (default = False)</p>
+<p><strong>return_best_fit_results</strong> : bool (default is False)</p>
 <blockquote>
 <div><p>If True a dictionary of results of is returned along with the
 figure.</p>
@@ -217,7 +210,7 @@ when drawing the scatter points and best-fit line, respectively.</p>
 <p><strong>pp_kws</strong> : dictionary, optional</p>
 <blockquote>
 <div><p>Dictionary of keyword arguments passed directly to
-<code class="docutils literal"><span class="pre">viz.plot_pos</span></code>.</p>
+<code class="docutils literal"><span class="pre">viz.plot_pos</span></code> when computing the plotting positions.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -226,17 +219,34 @@ when drawing the scatter points and best-fit line, respectively.</p>
 <div><p>The figure on which the plot was drawn.</p>
 </div></blockquote>
 <p><strong>result</strong> : dictionary of linear fit results, optional</p>
-<blockquote class="last">
-<div><dl class="docutils">
-<dt>Keys are:</dt>
-<dd><ul class="first last simple">
+<blockquote>
+<div><p>Keys are:</p>
+<blockquote>
+<div><ul class="simple">
 <li>q : array of quantiles</li>
 <li>x, y : arrays of data passed to function</li>
 <li>xhat, yhat : arrays of modeled data plotted in best-fit line</li>
 <li>res : array of coeffcients of the best-fit line.</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>color</strong> : string, optional</p>
+<blockquote>
+<div><p>A directly-specified matplotlib color argument for both the
+data series and the best-fit line if drawn. This argument is
+made available for compatibility for the seaborn package and
+is not recommended for general use. Instead colors should be
+specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code> and <code class="docutils literal"><span class="pre">line_kws</span></code>.</p>
+</div></blockquote>
+<p><strong>label</strong> : string, optional</p>
+<blockquote class="last">
+<div><p>A directly-specified legend label for the data series. This
+argument is made available for compatibility for the seaborn
+package and is not recommended for general use. Instead the
+data series label should be specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code></p>
 </div></blockquote>
 </td>
 </tr>
@@ -245,6 +255,34 @@ when drawing the scatter points and best-fit line, respectively.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last"><code class="xref py py-obj docutils literal"><span class="pre">viz.plot_pos</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">numpy.polyfit</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.probplot</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.mstats.plotting_positions</span></code></p>
+</div>
+<p class="rubric">Examples</p>
+<p>Probability plot with the probabilities on the y-axis</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span><span class="p">;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale.viz</span> <span class="k">import</span> <span class="n">probplot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">37</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Non-exceedance probability&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="../_images/viz-1.png" src="../_images/viz-1.png" />
+</div>
+<p>Quantile plot with the quantiles on the x-axis</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Theoretical Quantiles&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="../_images/viz-2.png" src="../_images/viz-2.png" />
 </div>
 </dd></dl>
 
@@ -268,29 +306,33 @@ values can also be access via the <code class="docutils literal"><span class="pr
 <code class="docutils literal"><span class="pre">postype</span></code> values (alpha, beta) are:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt>&#8220;type 4&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0, 1)</span><dd>Linear interpolation of the empirical CDF.</dd>
-<dt>&#8220;type 5&#8221; or &#8220;hazen&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.5, 0.5)</span><dd>Piecewise linear interpolation.</dd>
-<dt>&#8220;type 6&#8221; or &#8220;weibull&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0, 0)</span><dd>Weibull plotting positions. Unbiased exceedance probability
-for all distributions. This is will be the default value.</dd>
-<dt>&#8220;type 7&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(1, 1)</span><dd>The default values in R.</dd>
-<dt>&#8220;type 8&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(1/3, 1/3)</span><dd>Approximately median-unbiased.</dd>
-<dt>&#8220;type 9&#8221; or &#8220;blom&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.375, 0.375)</span><dd>Approximately unbiased positions if the data are normally
+<dt>&#8220;type 4&#8221; (alpha=0, beta=1)</dt>
+<dd>Linear interpolation of the empirical CDF.</dd>
+<dt>&#8220;type 5&#8221; or &#8220;hazen&#8221; (alpha=0.5, beta=0.5)</dt>
+<dd>Piecewise linear interpolation.</dd>
+<dt>&#8220;type 6&#8221; or &#8220;weibull&#8221; (alpha=0, beta=0)</dt>
+<dd>Weibull plotting positions. Unbiased exceedance probability
+for all distributions. Recommended for hydrologic
+applications.</dd>
+<dt>&#8220;type 7&#8221; (alpha=1, beta=1)</dt>
+<dd>The default values in R. Not recommended with probability
+scales as the min and max data points get plotting positions
+of 0 and 1, respectively, and therefore cannot be shown.</dd>
+<dt>&#8220;type 8&#8221; (alpha=1/3, beta=1/3)</dt>
+<dd>Approximately median-unbiased.</dd>
+<dt>&#8220;type 9&#8221; or &#8220;blom&#8221; (alpha=0.375, beta=0.375)</dt>
+<dd>Approximately unbiased positions if the data are normally
 distributed.</dd>
-<dt>&#8220;median&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.3175, 0.3175)</span><dd>Median exceedance probabilities for all distributions
+<dt>&#8220;median&#8221; (alpha=0.3175, beta=0.3175)</dt>
+<dd>Median exceedance probabilities for all distributions
 (used in <code class="docutils literal"><span class="pre">scipy.stats.probplot</span></code>).</dd>
-<dt>&#8220;apl&#8221; or &#8220;pwm&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.35, 0.35)</span><dd>Used with probability-weighted moments.</dd>
-<dt>&#8220;cunnane&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.4, 0.4)</span><dd>Nearly unbiased quantiles for normally distributed data.</dd>
-<dt>&#8220;gringorten&#8221;</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">(0.44, 0.44)</span><dd>Used for Gumble distributions.</dd>
+<dt>&#8220;apl&#8221; or &#8220;pwm&#8221; (alpha=0.35, beta=0.35)</dt>
+<dd>Used with probability-weighted moments.</dd>
+<dt>&#8220;cunnane&#8221; (alpha=0.4, beta=0.4)</dt>
+<dd>Nearly unbiased quantiles for normally distributed data.
+This is the default value.</dd>
+<dt>&#8220;gringorten&#8221; (alpha=0.44, beta=0.44)</dt>
+<dd>Used for Gumble distributions.</dd>
 </dl>
 </div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -371,7 +413,7 @@ through the <cite>postype</cite> parameter are insufficient.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1.2',
+            VERSION:'0.2.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>transforms API Reference &mdash; probscale 0.1.2 documentation</title>
+  <title>transforms API Reference &mdash; probscale 0.2.0 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="probscale 0.1.2 documentation" href="../index.html"/> 
+    <link rel="top" title="probscale 0.2.0 documentation" href="../index.html"/>
+        <link rel="up" title="API and Source Reference" href="../api.html"/>
+        <link rel="next" title="validate API Reference" href="validate.html"/>
+        <link rel="prev" title="formatters API Reference" href="formatters.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -58,7 +61,7 @@
             
             
               <div class="version">
-                0.1.2
+                0.2.0
               </div>
             
           
@@ -82,9 +85,17 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API and Source Reference</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API and Source Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formatters.html"><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validate.html"><code class="docutils literal"><span class="pre">validate</span></code> API Reference</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -115,6 +126,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
+          <li><a href="../api.html">API and Source Reference</a> &raquo;</li>
+      
     <li><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</li>
       <li class="wy-breadcrumbs-aside">
         
@@ -135,10 +148,35 @@
 <span id="transforms-api-reference"></span><h1><code class="docutils literal"><span class="pre">transforms</span></code> API Reference<a class="headerlink" href="#module-probscale.transforms" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="probscale.transforms.ProbTransform">
-<em class="property">class </em><code class="descclassname">probscale.transforms.</code><code class="descname">ProbTransform</code><span class="sig-paren">(</span><em>dist</em>, <em>as_pct=True</em>, <em>nonpos='mask'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#ProbTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.ProbTransform" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">probscale.transforms.</code><code class="descname">ProbTransform</code><span class="sig-paren">(</span><em>dist</em>, <em>as_pct=True</em>, <em>out_of_bounds='mask'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#ProbTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.ProbTransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.transforms._ProbTransformMixin</span></code></p>
 <p>MPL axes tranform class to convert quantiles to probabilities
 or percents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dist</strong> : scipy.stats distribution</p>
+<blockquote>
+<div><p>The distribution whose <code class="docutils literal"><span class="pre">cdf</span></code> and <code class="docutils literal"><span class="pre">pdf</span></code> methods wiil set the
+scale of the axis.</p>
+</div></blockquote>
+<p><strong>as_pct</strong> : bool, optional (True)</p>
+<blockquote>
+<div><p>Toggles the formatting of the probabilities associated with the
+tick labels as percentanges (0 - 100) or fractions (0 - 1).</p>
+</div></blockquote>
+<p><strong>out_of_bounds</strong> : string, optionals (&#8216;mask&#8217; or &#8216;clip&#8217;)</p>
+<blockquote class="last">
+<div><p>Determines how data outside the range of valid values is
+handled. The default behavior is to mask the data.
+Alternatively, the data can be clipped to values arbitrarily
+close to the limits of the scale.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="probscale.transforms.ProbTransform.transform_non_affine">
 <code class="descname">transform_non_affine</code><span class="sig-paren">(</span><em>prob</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#ProbTransform.transform_non_affine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.ProbTransform.transform_non_affine" title="Permalink to this definition">¶</a></dt>
@@ -153,10 +191,35 @@ or percents.</p>
 
 <dl class="class">
 <dt id="probscale.transforms.QuantileTransform">
-<em class="property">class </em><code class="descclassname">probscale.transforms.</code><code class="descname">QuantileTransform</code><span class="sig-paren">(</span><em>dist</em>, <em>as_pct=True</em>, <em>nonpos='mask'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#QuantileTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.QuantileTransform" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">probscale.transforms.</code><code class="descname">QuantileTransform</code><span class="sig-paren">(</span><em>dist</em>, <em>as_pct=True</em>, <em>out_of_bounds='mask'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#QuantileTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.QuantileTransform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.transforms._ProbTransformMixin</span></code></p>
 <p>MPL axes tranform class to convert probabilities or percents to
 quantiles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dist</strong> : scipy.stats distribution</p>
+<blockquote>
+<div><p>The distribution whose <code class="docutils literal"><span class="pre">cdf</span></code> and <code class="docutils literal"><span class="pre">pdf</span></code> methods wiil set the
+scale of the axis.</p>
+</div></blockquote>
+<p><strong>as_pct</strong> : bool, optional (True)</p>
+<blockquote>
+<div><p>Toggles the formatting of the probabilities associated with the
+tick labels as percentanges (0 - 100) or fractions (0 - 1).</p>
+</div></blockquote>
+<p><strong>out_of_bounds</strong> : string, optionals (&#8216;mask&#8217; or &#8216;clip&#8217;)</p>
+<blockquote class="last">
+<div><p>Determines how data outside the range of valid values is
+handled. The default behavior is to mask the data.
+Alternatively, the data can be clipped to values arbitrarily
+close to the limits of the scale.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="probscale.transforms.QuantileTransform.transform_non_affine">
 <code class="descname">transform_non_affine</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/transforms.html#QuantileTransform.transform_non_affine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.transforms.QuantileTransform.transform_non_affine" title="Permalink to this definition">¶</a></dt>
@@ -175,6 +238,15 @@ quantiles.</p>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="validate.html" class="btn btn-neutral float-right" title="validate API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="formatters.html" class="btn btn-neutral" title="formatters API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -203,7 +275,7 @@ quantiles.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1.2',
+            VERSION:'0.2.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
