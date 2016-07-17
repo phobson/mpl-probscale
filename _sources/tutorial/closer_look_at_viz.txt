@@ -422,6 +422,31 @@ y-axis.
 .. image:: closer_look_at_viz_files/closer_look_at_viz_27_0.png
 
 
+Bootstrapped confidence intervals
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Regardless of the scales of the plot (linear, log, or prob), you can add
+bootstrapped confidence intervals around the best-fit line. Simply use
+the ``estimate_ci=True`` option along with ``bestfit=True``:
+
+.. code:: python
+
+    N = 15
+    numpy.random.seed(0)
+    x = numpy.random.normal(size=N) + numpy.random.uniform(size=N)
+    fig, ax = pyplot.subplots(figsize=(8, 4))
+    fig = probscale.probplot(x, ax=ax, bestfit=True, estimate_ci=True, 
+                             line_kws={'label': 'BF Line', 'color': 'b'},
+                             scatter_kws={'label': 'Observations'},
+                             problabel='Probability (%)')
+    ax.legend(loc='lower right')
+    seaborn.despine(fig)
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_29_0.png
+
+
 Controlling the aesthetics of the plot elements
 -----------------------------------------------
 
@@ -466,7 +491,7 @@ Revisting the previous example, we can customize it like so:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_29_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_31_0.png
 
 
 .. note::
@@ -485,38 +510,10 @@ The ``probplot`` function calls the :func:`viz.plot_plos` function to compute ea
 You should read that function's docstring for more detailed information.
 But the high-level overview is that there are a couple of parameters (``alpha`` and ``beta``) that you can tweak in the plotting positions calculation.
 
-The most common values can be selected via the ``postype`` parameter and are described as follows:
+The most common values can be selected via the ``postype`` parameter.
 
-    "type 4" (α=0, β=1)
-        Linear interpolation of the empirical CDF.
-    "type 5" or "hazen" (α=0.5, β=0.5)
-        Piecewise linear interpolation.
-    "type 6" or "weibull" (α=0, β=0)
-        Weibull plotting positions. Unbiased exceedance probability
-        for all distributions. Recommended for hydrologic applications.
-    "type 7" (α=1, β=1)
-        The default values in R. Not recommended with probability
-        scales as the min and max data points get plotting positions
-        of 0 and 1, respectively, and therefore cannot be shown.
-    "type 8" (α=1/3, β=1/3)
-        Approximately median-unbiased.
-    "type 9" or "blom" (α=0.375, β=0.375)
-        Approximately unbiased positions if the data are normally
-        distributed.
-    "median" (α=0.3175, β=0.3175)
-        Median exceedance probabilities for all distributions
-        (used in ``scipy.stats.probplot``).
-    "apl" or "pwm" (α=0.35, β=0.35)
-        Used with probability-weighted moments.
-    "cunnane" (α=0.4, β=0.4)
-        Nearly unbiased quantiles for normally distributed data.
-        This is the default value.
-    "gringorten" (α=0.44, β=0.44)
-        Used for Gumble distributions.
-        
 These are controlled via the `pp_kws` parameter in `probplot`
-and are discussed in much more detail in the next tutorial.
-
+and are discussed in much more detail in the `next tutorial <closer_look_at_plot_pos.html>`_.
 
 .. code:: python
 
@@ -544,7 +541,7 @@ and are discussed in much more detail in the next tutorial.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_33_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_35_0.png
 
 
 Mapping probability plots to seaborn `FacetGrids <http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid>`__
@@ -568,7 +565,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_35_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_37_0.png
 
 
 .. code:: python
@@ -582,7 +579,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_36_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_38_0.png
 
 
 .. code:: python
@@ -596,5 +593,5 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_37_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_39_0.png
 

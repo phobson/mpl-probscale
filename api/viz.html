@@ -148,7 +148,7 @@
 <span id="viz-api-reference"></span><h1><code class="docutils literal"><span class="pre">viz</span></code> API Reference<a class="headerlink" href="#module-probscale.viz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="probscale.viz.probplot">
-<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>problabel=None</em>, <em>datascale='linear'</em>, <em>datalabel=None</em>, <em>bestfit=False</em>, <em>return_best_fit_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em>, <em>color=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>problabel=None</em>, <em>datascale='linear'</em>, <em>datalabel=None</em>, <em>bestfit=False</em>, <em>estimate_ci=False</em>, <em>return_best_fit_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em>, <em>**fgkwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Probability, percentile, and quantile plots.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -240,13 +240,23 @@ data series and the best-fit line if drawn. This argument is
 made available for compatibility for the seaborn package and
 is not recommended for general use. Instead colors should be
 specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code> and <code class="docutils literal"><span class="pre">line_kws</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Users should not specify the parameter. It is inteded to only
+be used by seaborn when operating within a FacetGrid.</p>
+</div>
 </div></blockquote>
 <p><strong>label</strong> : string, optional</p>
 <blockquote class="last">
 <div><p>A directly-specified legend label for the data series. This
 argument is made available for compatibility for the seaborn
 package and is not recommended for general use. Instead the
-data series label should be specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code></p>
+data series label should be specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Users should not specify the parameter. It is inteded to only
+be used by seaborn when operating within a FacetGrid.</p>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -368,6 +378,64 @@ through the <cite>postype</cite> parameter are insufficient.</p>
 <a class="reference external" href="http://astrostatistics.psu.edu/su07/R/html/stats/html/quantile.html">http://astrostatistics.psu.edu/su07/R/html/stats/html/quantile.html</a>
 <a class="reference external" href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.probplot.html">http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.probplot.html</a>
 <a class="reference external" href="http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.mstats.plotting_positions.html">http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.mstats.plotting_positions.html</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="probscale.viz.fit_line">
+<code class="descclassname">probscale.viz.</code><code class="descname">fit_line</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>xhat=None</em>, <em>fitprobs=None</em>, <em>fitlogs=None</em>, <em>dist=None</em>, <em>estimate_ci=False</em>, <em>niter=10000</em>, <em>alpha=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#fit_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.fit_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a line to x-y data in various forms (linear, log, prob scales).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : array-like</p>
+<blockquote>
+<div><p>Independent and dependent data, respectively.</p>
+</div></blockquote>
+<p><strong>xhat</strong> : array-like, optional</p>
+<blockquote>
+<div><p>The values at which <code class="docutils literal"><span class="pre">yhat</span></code> should should be estimated. If
+not provided, falls back to the sorted values of <code class="docutils literal"><span class="pre">x</span></code>.</p>
+</div></blockquote>
+<p><strong>fitprobs, fitlogs</strong> : str, optional.</p>
+<blockquote>
+<div><p>Defines how data should be transformed. Valid values are
+&#8216;x&#8217;, &#8216;y&#8217;, or &#8216;both&#8217;. If using <code class="docutils literal"><span class="pre">fitprobs</span></code>, variables should
+be expressed as a percentage, i.e.,
+Probablility transform = lambda x: <code class="docutils literal"><span class="pre">dist</span></code>.ppf(x / 100.).
+Log transform = lambda x: numpy.log(x).
+Take care to not pass the same value to both <code class="docutils literal"><span class="pre">fitlogs</span></code> and
+<code class="docutils literal"><span class="pre">figprobs</span></code> as both transforms will be applied.</p>
+</div></blockquote>
+<p><strong>dist</strong> : distribution, optional</p>
+<blockquote>
+<div><p>A fully-spec&#8217;d scipy.stats distribution-like object
+such that <code class="docutils literal"><span class="pre">dist.ppf</span></code> and <code class="docutils literal"><span class="pre">dist.cdf</span></code> can be called. If not
+provided, defaults to a minimal implementation of
+scipt.stats.norm.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>xhat, yhat</strong> : numpy arrays</p>
+<blockquote>
+<div><p>Linear model estimates of <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code>.</p>
+</div></blockquote>
+<p><strong>results</strong> : dict</p>
+<blockquote class="last">
+<div><p>Dictionary of linear fit results. Keys include:</p>
+<blockquote>
+<div><ul class="simple">
+<li>slope</li>
+<li>intersept</li>
+<li>yhat_lo (lower confidence interval of the estimated y-vals)</li>
+<li>yhat_hi (upper confidence interval of the estimated y-vals)</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -240,6 +240,7 @@ function signature.
         probax='y', # flip the plot
         datascale='log', # scale of the non-probability axis
         bestfit=True, # draw a best-fit line
+        estimate_ci=True,
         datalabel='Lognormal Values',  # labels and markers...
         problabel='Non-exceedance probability',
         scatter_kws=dict(marker='d', zorder=2, mew=1.25, mec='w', markersize=10),

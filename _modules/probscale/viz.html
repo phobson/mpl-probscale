@@ -132,7 +132,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for probscale.viz</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
 
 <span class="kn">from</span> <span class="nn">.probscale</span> <span class="kn">import</span> <span class="n">_minimal_norm</span>
@@ -141,9 +143,10 @@
 
 <div class="viewcode-block" id="probplot"><a class="viewcode-back" href="../../api/viz.html#probscale.viz.probplot">[docs]</a><span class="k">def</span> <span class="nf">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
              <span class="n">problabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">datascale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">datalabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-             <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_best_fit_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+             <span class="n">bestfit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">estimate_ci</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+             <span class="n">return_best_fit_results</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
              <span class="n">scatter_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pp_kws</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-             <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+             <span class="o">**</span><span class="n">fgkwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Probability, percentile, and quantile plots.</span>
 
@@ -192,11 +195,21 @@
 <span class="sd">        made available for compatibility for the seaborn package and</span>
 <span class="sd">        is not recommended for general use. Instead colors should be</span>
 <span class="sd">        specified within ``scatter_kws`` and ``line_kws``.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">           Users should not specify the parameter. It is inteded to only</span>
+<span class="sd">           be used by seaborn when operating within a FacetGrid.</span>
+
 <span class="sd">    label : string, optional</span>
 <span class="sd">        A directly-specified legend label for the data series. This</span>
 <span class="sd">        argument is made available for compatibility for the seaborn</span>
 <span class="sd">        package and is not recommended for general use. Instead the</span>
-<span class="sd">        data series label should be specified within ``scatter_kws``</span>
+<span class="sd">        data series label should be specified within ``scatter_kws``.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">           Users should not specify the parameter. It is inteded to only</span>
+<span class="sd">           be used by seaborn when operating within a FacetGrid.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -264,15 +277,19 @@
     <span class="n">line_kws</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">other_options</span><span class="p">(</span><span class="n">line_kws</span><span class="p">)</span>
     <span class="n">pp_kws</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">other_options</span><span class="p">(</span><span class="n">pp_kws</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">scatter_kws</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
-        <span class="n">line_kws</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
-
-    <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">scatter_kws</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
-
     <span class="c1"># check plottype</span>
     <span class="n">plottype</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">axis_type</span><span class="p">(</span><span class="n">plottype</span><span class="p">)</span>
+
+    <span class="c1">## !-- kwarg that only seaborn should use --! ##</span>
+    <span class="n">_color</span> <span class="o">=</span> <span class="n">fgkwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scatter_kws</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_color</span>
+        <span class="n">line_kws</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_color</span>
+
+    <span class="c1">## !-- kwarg that only seaborn should use --! ##</span>
+    <span class="n">_label</span> <span class="o">=</span> <span class="n">fgkwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scatter_kws</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_label</span>
 
     <span class="c1"># compute the plotting positions and sort the data</span>
     <span class="n">probs</span><span class="p">,</span> <span class="n">datavals</span> <span class="o">=</span> <span class="n">plot_pos</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">pp_kws</span><span class="p">)</span>
@@ -323,8 +340,22 @@
 
     <span class="c1"># maybe do a best-fit and plot</span>
     <span class="k">if</span> <span class="n">bestfit</span><span class="p">:</span>
-        <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="n">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="n">fitprobs</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span>
+        <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="n">fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">,</span>
+                                        <span class="n">fitprobs</span><span class="o">=</span><span class="n">fitprobs</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">,</span>
+                                        <span class="n">estimate_ci</span><span class="o">=</span><span class="n">estimate_ci</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="o">**</span><span class="n">line_kws</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">estimate_ci</span><span class="p">:</span>
+            <span class="c1"># for alpha, use half of existing or 0.5 * 0.5 = 0.25</span>
+            <span class="c1"># for zorder, use 1 less than existing or 1 - 1 = 0</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="n">line_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span> <span class="n">line_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">line_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
+                <span class="s1">&#39;zorder&#39;</span><span class="p">:</span> <span class="n">line_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zorder&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;95</span><span class="si">% c</span><span class="s1">onf. interval&#39;</span>
+            <span class="p">}</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="n">modelres</span><span class="p">[</span><span class="s1">&#39;yhat_hi&#39;</span><span class="p">],</span> <span class="n">y2</span><span class="o">=</span><span class="n">modelres</span><span class="p">[</span><span class="s1">&#39;yhat_lo&#39;</span><span class="p">],</span>
+                            <span class="o">**</span><span class="n">opts</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">modelres</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
@@ -471,7 +502,28 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">minval</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">100</span><span class="o">-</span><span class="n">minval</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_make_boot_index</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">niter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate an array of bootstrap sample sets</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    elements : int</span>
+<span class="sd">        The number of rows in the original dataset.</span>
+<span class="sd">    niter : int</span>
+<span class="sd">        Number of iteration for the bootstrapping.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    index : numpy array</span>
+<span class="sd">        A collection of random *indices* that can be used to randomly</span>
+<span class="sd">        sample a dataset ``niter`` times.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">elements</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">niter</span><span class="p">,</span> <span class="n">elements</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="fit_line"><a class="viewcode-back" href="../../api/viz.html#probscale.viz.fit_line">[docs]</a><span class="k">def</span> <span class="nf">fit_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitprobs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">estimate_ci</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fits a line to x-y data in various forms (linear, log, prob scales).</span>
 
@@ -500,17 +552,21 @@
 <span class="sd">    -------</span>
 <span class="sd">    xhat, yhat : numpy arrays</span>
 <span class="sd">        Linear model estimates of ``x`` and ``y``.</span>
-<span class="sd">    results : a statmodels result object</span>
-<span class="sd">        The object returned by numpy.polyfit</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary of linear fit results. Keys include:</span>
+
+<span class="sd">          - slope</span>
+<span class="sd">          - intersept</span>
+<span class="sd">          - yhat_lo (lower confidence interval of the estimated y-vals)</span>
+<span class="sd">          - yhat_hi (upper confidence interval of the estimated y-vals)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">fitprobs</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">fit_argument</span><span class="p">(</span><span class="n">fitprobs</span><span class="p">,</span> <span class="s2">&quot;fitprobs&quot;</span><span class="p">)</span>
     <span class="n">fitlogs</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">fit_argument</span><span class="p">(</span><span class="n">fitlogs</span><span class="p">,</span> <span class="s2">&quot;fitlogs&quot;</span><span class="p">)</span>
 
     <span class="c1"># maybe set xhat to default values</span>
     <span class="k">if</span> <span class="n">xhat</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">xhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+        <span class="n">xhat</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="c1"># maybe set dist to default value</span>
     <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -533,32 +589,118 @@
     <span class="k">if</span> <span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="c1"># do the best-fit</span>
-    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">yhat</span><span class="p">,</span> <span class="n">results</span> <span class="o">=</span>  <span class="n">_fit_simple</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">)</span>
 
-    <span class="c1"># estimate y values</span>
-    <span class="n">yhat</span> <span class="o">=</span> <span class="n">_estimate_from_fit</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                  <span class="n">xlog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">],</span>
-                                  <span class="n">ylog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">estimate_ci</span><span class="p">:</span>
+        <span class="n">yhat_lo</span><span class="p">,</span> <span class="n">yhat_hi</span> <span class="o">=</span> <span class="n">_fit_ci</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">,</span>
+                                   <span class="n">niter</span><span class="o">=</span><span class="n">niter</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">yhat_lo</span><span class="p">,</span> <span class="n">yhat_hi</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
 
     <span class="c1"># maybe undo the ppf transform</span>
     <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
-        <span class="n">yhat</span> <span class="o">=</span> <span class="mf">100.</span><span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">yhat_lo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">yhat_lo</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">yhat_lo</span><span class="p">)</span>
+            <span class="n">yhat_hi</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">yhat_hi</span><span class="p">)</span>
 
     <span class="c1"># maybe undo ppf transform</span>
     <span class="k">if</span> <span class="n">fitprobs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">]:</span>
-        <span class="n">xhat</span> <span class="o">=</span> <span class="mf">100.</span><span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span>
+        <span class="n">xhat</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">coeffs</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;yhat_lo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yhat_lo</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;yhat_hi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yhat_hi</span>
+
+    <span class="k">return</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">results</span></div>
 
 
-<span class="k">def</span> <span class="nf">_estimate_from_fit</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">xlog</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ylog</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_fit_simple</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple linear fit of x and y data using ``numpy.polyfit``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x, y : array-like</span>
+<span class="sd">    fitlogs : str, optional.</span>
+<span class="sd">        Defines which data should be log-transformed. Valid values are</span>
+<span class="sd">        &#39;x&#39;, &#39;y&#39;, or &#39;both&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xhat, yhat : array-like</span>
+<span class="sd">        Estimates of x and y based on the linear fit</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary of the fit coefficients</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    numpy.polyfit</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># do the best-fit</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;slope&#39;</span><span class="p">:</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s1">&#39;intercept&#39;</span><span class="p">:</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="c1"># estimate y values</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">_estimate_from_fit</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                              <span class="n">xlog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">],</span>
+                              <span class="n">ylog</span><span class="o">=</span><span class="n">fitlogs</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">results</span>
+
+
+<span class="k">def</span> <span class="nf">_fit_ci</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Percentile method bootstrapping of linear fit of x and y data using</span>
+<span class="sd">    ``numpy.polyfit``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x, y : array-like</span>
+<span class="sd">    fitlogs : str, optional.</span>
+<span class="sd">        Defines which data should be log-transformed. Valid values are</span>
+<span class="sd">        &#39;x&#39;, &#39;y&#39;, or &#39;both&#39;.</span>
+<span class="sd">    niter : int, optional (default is 10000)</span>
+<span class="sd">        Number of bootstrap iterations to use</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Confidence level of the estimate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xhat, yhat : array-like</span>
+<span class="sd">        Estimates of x and y based on the linear fit</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary of the fit coefficients</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    numpy.polyfit</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">_make_boot_index</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">niter</span><span class="p">)</span>
+    <span class="n">yhat_array</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">_fit_simple</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">xhat</span><span class="p">,</span> <span class="n">fitlogs</span><span class="o">=</span><span class="n">fitlogs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">index</span>
+    <span class="p">])</span>
+
+    <span class="n">percentiles</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">alpha</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">yhat_lo</span><span class="p">,</span> <span class="n">yhat_hi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">yhat_array</span><span class="p">,</span> <span class="n">percentiles</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">yhat_lo</span><span class="p">,</span> <span class="n">yhat_hi</span>
+
+
+<span class="k">def</span> <span class="nf">_estimate_from_fit</span><span class="p">(</span><span class="n">xhat</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">xlog</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ylog</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Estimate the dependent variables of a linear fit given x-data</span>
 <span class="sd">    and linear parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    xdata : numpy array or pandas Series/DataFrame</span>
+<span class="sd">    xhat : numpy array or pandas Series/DataFrame</span>
 <span class="sd">        The input independent variable of the fit</span>
 <span class="sd">    slope : float</span>
 <span class="sd">        Slope of the best-fit line</span>
@@ -570,24 +712,24 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    yhat : same type as xdata</span>
+<span class="sd">    yhat : numpy array</span>
 <span class="sd">        Estimate of the dependent variable.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xdata</span><span class="p">)</span>
+    <span class="n">xhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ylog</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">xlog</span><span class="p">:</span>
-            <span class="n">yhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span>  <span class="o">**</span> <span class="n">slope</span>
+            <span class="n">yhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="n">xhat</span>  <span class="o">**</span> <span class="n">slope</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">yhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span> <span class="o">**</span> <span class="n">x</span>
+            <span class="n">yhat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span> <span class="o">**</span> <span class="n">xhat</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">xlog</span><span class="p">:</span>
-            <span class="n">yhat</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span>
+            <span class="n">yhat</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">xhat</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">yhat</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span>
+            <span class="n">yhat</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">xhat</span> <span class="o">+</span> <span class="n">intercept</span>
 
     <span class="k">return</span> <span class="n">yhat</span>
 </pre></div>
