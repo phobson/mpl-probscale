@@ -447,6 +447,48 @@ the ``estimate_ci=True`` option along with ``bestfit=True``:
 .. image:: closer_look_at_viz_files/closer_look_at_viz_29_0.png
 
 
+Tuning the plotting positions
+-----------------------------
+
+The ``probplot`` function calls the :func:`viz.plot_plos` function to compute each dataset's plotting positions.
+
+You should read that function's docstring for more detailed information.
+But the high-level overview is that there are a couple of parameters (``alpha`` and ``beta``) that you can tweak in the plotting positions calculation.
+
+The most common values can be selected via the ``postype`` parameter.
+
+These are controlled via the `pp_kws` parameter in `probplot`
+and are discussed in much more detail in the `next tutorial <closer_look_at_plot_pos.html>`_.
+
+.. code:: python
+
+    common_opts = dict(
+        plottype='prob',
+        probax='x',
+        datalabel='Data',
+    )
+    
+    numpy.random.seed(0)
+    x = numpy.random.normal(size=15)
+    
+    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(6, 6), nrows=3, sharex=True)
+    fig = probscale.probplot(x, ax=ax1, problabel='Cunnuane (default) plotting positions',
+                             **common_opts)
+    
+    fig = probscale.probplot(x, ax=ax2, problabel='Weibull plotting positions',
+                             pp_kws=dict(postype='weibull'), **common_opts)
+    
+    fig = probscale.probplot(x, ax=ax3, problabel='Custom plotting positions',
+                             pp_kws=dict(alpha=0.6, beta=0.1), **common_opts)
+    ax1.set_xlim(left=1, right=99)
+    seaborn.despine()
+    fig.tight_layout()
+
+
+
+.. image:: closer_look_at_viz_files/closer_look_at_viz_32_0.png
+
+
 Controlling the aesthetics of the plot elements
 -----------------------------------------------
 
@@ -491,7 +533,7 @@ Revisting the previous example, we can customize it like so:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_31_0.png
+.. image:: closer_look_at_viz_files/closer_look_at_viz_34_0.png
 
 
 .. note::
@@ -501,48 +543,6 @@ Revisting the previous example, we can customize it like so:
    Similarly, the label of the scatter series will be overridden by the explicit parameter.
    It is not recommended that `color` and `label` are used. They exist primarily for 
    compatibility with the seaborn package.
-
-Tuning the plotting positions
------------------------------
-
-The ``probplot`` function calls the :func:`viz.plot_plos` function to compute each dataset's plotting positions.
-
-You should read that function's docstring for more detailed information.
-But the high-level overview is that there are a couple of parameters (``alpha`` and ``beta``) that you can tweak in the plotting positions calculation.
-
-The most common values can be selected via the ``postype`` parameter.
-
-These are controlled via the `pp_kws` parameter in `probplot`
-and are discussed in much more detail in the `next tutorial <closer_look_at_plot_pos.html>`_.
-
-.. code:: python
-
-    common_opts = dict(
-        plottype='prob',
-        probax='x',
-        datalabel='Data',
-    )
-    
-    numpy.random.seed(0)
-    x = numpy.random.normal(size=15)
-    
-    fig, (ax1, ax2, ax3) = pyplot.subplots(figsize=(6, 6), nrows=3, sharex=True)
-    fig = probscale.probplot(x, ax=ax1, problabel='Cunnuane (default) plotting positions',
-                             **common_opts)
-    
-    fig = probscale.probplot(x, ax=ax2, problabel='Weibull plotting positions',
-                             pp_kws=dict(postype='weibull'), **common_opts)
-    
-    fig = probscale.probplot(x, ax=ax3, problabel='Custom plotting positions',
-                             pp_kws=dict(alpha=0.6, beta=0.1), **common_opts)
-    ax1.set_xlim(left=1, right=99)
-    seaborn.despine()
-    fig.tight_layout()
-
-
-
-.. image:: closer_look_at_viz_files/closer_look_at_viz_35_0.png
-
 
 Mapping probability plots to seaborn `FacetGrids <http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid>`__
 -----------------------------------------------------------------------------------------------------------------------------------------------------------

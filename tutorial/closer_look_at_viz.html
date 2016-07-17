@@ -96,8 +96,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#bootstrapped-confidence-intervals">Bootstrapped confidence intervals</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#controlling-the-aesthetics-of-the-plot-elements">Controlling the aesthetics of the plot elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tuning-the-plotting-positions">Tuning the plotting positions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#controlling-the-aesthetics-of-the-plot-elements">Controlling the aesthetics of the plot elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mapping-probability-plots-to-seaborn-facetgrids">Mapping probability plots to seaborn FacetGrids</a></li>
 </ul>
 </li>
@@ -502,6 +502,39 @@ the <code class="docutils literal"><span class="pre">estimate_ci=True</span></co
 <img alt="../_images/closer_look_at_viz_29_0.png" src="../_images/closer_look_at_viz_29_0.png" />
 </div>
 </div>
+<div class="section" id="tuning-the-plotting-positions">
+<h2>Tuning the plotting positions<a class="headerlink" href="#tuning-the-plotting-positions" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">probplot</span></code> function calls the <code class="xref py py-func docutils literal"><span class="pre">viz.plot_plos()</span></code> function to compute each dataset&#8217;s plotting positions.</p>
+<p>You should read that function&#8217;s docstring for more detailed information.
+But the high-level overview is that there are a couple of parameters (<code class="docutils literal"><span class="pre">alpha</span></code> and <code class="docutils literal"><span class="pre">beta</span></code>) that you can tweak in the plotting positions calculation.</p>
+<p>The most common values can be selected via the <code class="docutils literal"><span class="pre">postype</span></code> parameter.</p>
+<p>These are controlled via the <cite>pp_kws</cite> parameter in <cite>probplot</cite>
+and are discussed in much more detail in the <a class="reference external" href="closer_look_at_plot_pos.html">next tutorial</a>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">common_opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span>
+    <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+    <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Cunnuane (default) plotting positions&#39;</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Weibull plotting positions&#39;</span><span class="p">,</span>
+                         <span class="n">pp_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">postype</span><span class="o">=</span><span class="s1">&#39;weibull&#39;</span><span class="p">),</span> <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Custom plotting positions&#39;</span><span class="p">,</span>
+                         <span class="n">pp_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/closer_look_at_viz_32_0.png" src="../_images/closer_look_at_viz_32_0.png" />
+</div>
 <div class="section" id="controlling-the-aesthetics-of-the-plot-elements">
 <h2>Controlling the aesthetics of the plot elements<a class="headerlink" href="#controlling-the-aesthetics-of-the-plot-elements" title="Permalink to this headline">¶</a></h2>
 <p>As it has been hinted in the examples above, the <code class="docutils literal"><span class="pre">probplot</span></code> function
@@ -539,7 +572,7 @@ are passed directly to the <code class="docutils literal"><span class="pre">plot
 <span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/closer_look_at_viz_31_0.png" src="../_images/closer_look_at_viz_31_0.png" />
+<img alt="../_images/closer_look_at_viz_34_0.png" src="../_images/closer_look_at_viz_34_0.png" />
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal"><span class="pre">probplot</span></code> function can take two additional aesthetic parameters:
@@ -549,39 +582,6 @@ Similarly, the label of the scatter series will be overridden by the explicit pa
 It is not recommended that <cite>color</cite> and <cite>label</cite> are used. They exist primarily for
 compatibility with the seaborn package.</p>
 </div>
-</div>
-<div class="section" id="tuning-the-plotting-positions">
-<h2>Tuning the plotting positions<a class="headerlink" href="#tuning-the-plotting-positions" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">probplot</span></code> function calls the <code class="xref py py-func docutils literal"><span class="pre">viz.plot_plos()</span></code> function to compute each dataset&#8217;s plotting positions.</p>
-<p>You should read that function&#8217;s docstring for more detailed information.
-But the high-level overview is that there are a couple of parameters (<code class="docutils literal"><span class="pre">alpha</span></code> and <code class="docutils literal"><span class="pre">beta</span></code>) that you can tweak in the plotting positions calculation.</p>
-<p>The most common values can be selected via the <code class="docutils literal"><span class="pre">postype</span></code> parameter.</p>
-<p>These are controlled via the <cite>pp_kws</cite> parameter in <cite>probplot</cite>
-and are discussed in much more detail in the <a class="reference external" href="closer_look_at_plot_pos.html">next tutorial</a>.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">common_opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span>
-    <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
-    <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Cunnuane (default) plotting positions&#39;</span><span class="p">,</span>
-                         <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Weibull plotting positions&#39;</span><span class="p">,</span>
-                         <span class="n">pp_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">postype</span><span class="o">=</span><span class="s1">&#39;weibull&#39;</span><span class="p">),</span> <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Custom plotting positions&#39;</span><span class="p">,</span>
-                         <span class="n">pp_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="o">**</span><span class="n">common_opts</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
-<span class="n">seaborn</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-<img alt="../_images/closer_look_at_viz_35_0.png" src="../_images/closer_look_at_viz_35_0.png" />
 </div>
 <div class="section" id="mapping-probability-plots-to-seaborn-facetgrids">
 <h2>Mapping probability plots to seaborn <a class="reference external" href="http://stanford.edu/~mwaskom/software/seaborn/tutorial/axis_grids.html#subsetting-data-with-facetgrid">FacetGrids</a><a class="headerlink" href="#mapping-probability-plots-to-seaborn-facetgrids" title="Permalink to this headline">¶</a></h2>
