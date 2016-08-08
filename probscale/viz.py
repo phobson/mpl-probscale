@@ -394,6 +394,25 @@ def _make_boot_index(elements, niter):
     return numpy.random.randint(low=0, high=elements, size=(niter, elements))
 
 
+def _transform_in(array, how, dist):
+    _a = numpy.asarray(array)
+    trans = {
+        'linear': lambda x: x,
+        'log': numpy.log,
+        'prob': dist.ppf,
+    }
+    return trans[how](_a)
+
+
+def _transform_out(array, how, dist):
+    trans = {
+        'linear': lambda x: x,
+        'log': numpy.exp,
+        'prob': lambda x: 100 * dist.cdf(x),
+    }
+    return trans[how](array)
+
+
 def fit_line(x, y, xhat=None, fitprobs=None, fitlogs=None, dist=None,
              estimate_ci=False, niter=10000, alpha=0.05):
     """
@@ -408,7 +427,7 @@ def fit_line(x, y, xhat=None, fitprobs=None, fitlogs=None, dist=None,
         not provided, falls back to the sorted values of ``x``.
     fitprobs, fitlogs : str, optional.
         Defines how data should be transformed. Valid values are
-        'x', 'y', or 'both'. If using ``fitprobs``, variables should
+        'x', 'y', or 'xy'. If using ``fitprobs``, variables should
         be expressed as a percentage, i.e.,
         Probablility transform = lambda x: ``dist``.ppf(x / 100.).
         Log transform = lambda x: numpy.log(x).
@@ -433,69 +452,62 @@ def fit_line(x, y, xhat=None, fitprobs=None, fitlogs=None, dist=None,
           - yhat_hi (upper confidence interval of the estimated y-vals)
 
     """
+
     fitprobs = validate.fit_argument(fitprobs, "fitprobs")
     fitlogs = validate.fit_argument(fitlogs, "fitlogs")
 
-    # maybe set xhat to default values
-    if xhat is None:
-        xhat = copy.copy(x)
+    transform_lookup = {
+        #fprb, #flog   #xtrans    #ytrans
+        (None, None): ('linear', 'linear'),
+        (None, 'x'):  ('log',    'linear'),
+        (None, 'y'):  ('linear', 'log'),
+        (None, 'xy'): ('log',    'log'),
+        ('y',  None): ('linear', 'prob'),
+        ('x',  None): ('prob',   'linear'),
+        ('xy', None): ('prob',   'prob'),
+        ('x',  'y'):  ('prob',   'log'),
+        ('y',  'x'):  ('log',    'prob'),
+    }
 
     # maybe set dist to default value
     if dist is None:
         dist = _minimal_norm
 
-    # maybe compute ppf of x
-    if fitprobs in ['x', 'both']:
-        x = dist.ppf(x/100.)
-        xhat = dist.ppf(numpy.array(xhat)/100.)
+    xhow, yhow = transform_lookup[(fitprobs, fitlogs)]
+    _x = _transform_in(x, xhow, dist)
+    _y = _transform_in(y, xhow, dist)
 
-    # maybe compute ppf of y
-    if fitprobs in ['y', 'both']:
-        y  = dist.ppf(y/100.)
+    if xhat is None:
+        _xhat = numpy.linspace(_x.min(), _x.max(), num=100)
+    else:
+        _xhat = _transform_in(xhat, xhow, dist)
 
-    # maybe compute log of x
-    if fitlogs in ['x', 'both']:
-        x = numpy.log(x)
-
-    # maybe compute log of y
-    if fitlogs in ['y', 'both']:
-        y = numpy.log(y)
-
-    yhat, results =  _fit_simple(x, y, xhat, fitlogs=fitlogs)
+    _yhat, results =  _fit_simple(_x, _y, _xhat)
 
     if estimate_ci:
-        yhat_lo, yhat_hi = _fit_ci(x, y, xhat, fitlogs=fitlogs,
-                                   niter=niter, alpha=alpha)
+        _yhat_lo, _yhat_hi = _fit_ci(_x, _y, _xhat, niter=niter, alpha=alpha)
+        yhat_lo = _transform_out(_yhat_lo, yhow, dist)
+        yhat_hi = _transform_out(_yhat_hi, yhow, dist)
     else:
         yhat_lo, yhat_hi = None, None
 
-    # maybe undo the ppf transform
-    if fitprobs in ['y', 'both']:
-        yhat = 100. * dist.cdf(yhat)
-        if yhat_lo is not None:
-            yhat_lo = 100. * dist.cdf(yhat_lo)
-            yhat_hi = 100. * dist.cdf(yhat_hi)
-
-    # maybe undo ppf transform
-    if fitprobs in ['x', 'both']:
-        xhat = 100. * dist.cdf(xhat)
-
+    yhat = _transform_out(_yhat, yhow, dist)
     results['yhat_lo'] = yhat_lo
     results['yhat_hi'] = yhat_hi
 
     return xhat, yhat, results
 
 
-def _fit_simple(x, y, xhat, fitlogs=None):
+def _fit_simple(x, y, xhat):
     """
     Simple linear fit of x and y data using ``numpy.polyfit``.
 
     Parameters
     ----------
     x, y : array-like
-    fitlogs : str, optional.
-        Defines which data should be log-transformed. Valid values are
-        'x', 'y', or 'both'.
+    xhat : array-like
+        x-values at which the y-values will be estimated to produce
+        ``yhat``.
 
     Returns
     -------
@@ -512,21 +524,18 @@ def _fit_simple(x, y, xhat, fitlogs=None):
 
     # do the best-fit
     coeffs = numpy.polyfit(x, y, 1)
-
     results = {
         'slope': coeffs[0],
         'intercept': coeffs[1]
     }
 
     # estimate y values
-    yhat = _estimate_from_fit(xhat, coeffs[0], coeffs[1],
-                              xlog=fitlogs in ['x', 'both'],
-                              ylog=fitlogs in ['y', 'both'])
+    yhat = numpy.polyval(coeffs, xhat)
 
     return yhat, results
 
 
-def _fit_ci(x, y, xhat, fitlogs=None, niter=10000, alpha=0.05):
+def _fit_ci(x, y, xhat, niter=10000, alpha=0.05):
     """
     Percentile method bootstrapping of linear fit of x and y data using
     ``numpy.polyfit``.
@@ -534,9 +543,9 @@ def _fit_ci(x, y, xhat, fitlogs=None, niter=10000, alpha=0.05):
     Parameters
     ----------
     x, y : array-like
-    fitlogs : str, optional.
-        Defines which data should be log-transformed. Valid values are
-        'x', 'y', or 'both'.
+    xhat : array-like
+        x-values at which the y-values will be estimated to produce
+        ``yhat``.
     niter : int, optional (default is 10000)
         Number of bootstrap iterations to use
     alpha : float, optional
@@ -556,10 +565,8 @@ def _fit_ci(x, y, xhat, fitlogs=None, niter=10000, alpha=0.05):
     """
 
     index = _make_boot_index(len(x), niter)
-    yhat_array = numpy.array([
-        _fit_simple(x[ii], y[ii], xhat, fitlogs=fitlogs)[0]
-        for ii in index
-    ])
+
+    yhat_array = numpy.array([_fit_simple(x[ii], y[ii], xhat)[0] for ii in index])
 
     percentiles = 100 * numpy.array([alpha*0.5, 1 - alpha*0.5])
     yhat_lo, yhat_hi = numpy.percentile(yhat_array, percentiles, axis=0)
@@ -590,17 +597,21 @@ def _estimate_from_fit(xhat, slope, intercept, xlog=False, ylog=False):
     """
 
     xhat = numpy.asarray(xhat)
-    if ylog:
-        if xlog:
-            yhat = numpy.exp(intercept) * xhat  ** slope
-        else:
-            yhat = numpy.exp(intercept) * numpy.exp(slope) ** xhat
 
+    # fully linear
+    if not (xlog or ylog):
+        yhat = slope * xhat + intercept
+
+    # fully logarithmic
+    elif xlog and ylog:
+        yhat = numpy.exp(intercept) * xhat  ** slope
+
+    # xlog only
+    elif xlog and not ylog:
+        yhat = slope * numpy.log(xhat) + intercept
+
+    # ylog only
     else:
-        if xlog:
-            yhat = slope * numpy.log(xhat) + intercept
-
-        else:
-            yhat = slope * xhat + intercept
+        yhat = numpy.exp(intercept) * numpy.exp(slope) ** xhat
 
     return yhat

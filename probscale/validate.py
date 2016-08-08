@@ -40,7 +40,7 @@ def fit_argument(arg, argname):
     of valid values.
     """
 
-    valid_args = ['x', 'y', 'both', None]
+    valid_args = ['x', 'y', 'xy', None]
     if arg not in valid_args:
         msg = 'Invalid value for {} ({}). Must be on of {}.'
         raise ValueError(msg.format(argname, arg, valid_args))

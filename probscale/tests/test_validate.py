@@ -28,8 +28,8 @@ def test_axes_object_with_None():
     ('x', 'fitprobs'),
     ('y', 'fitprobs'),
     ('y', 'fitlogs'),
-    ('both', 'fitprobs'),
-    ('both', 'fitlogs'),
+    ('xy', 'fitprobs'),
+    ('xy', 'fitlogs'),
     (None, 'fitprobs'),
     (None, 'fitlogs'),
 ])

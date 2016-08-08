@@ -107,7 +107,7 @@ class Test_fit_line(object):
         ])
         scales = {'fitlogs': None, 'fitprobs': None}
         x, y = self.zscores, self.data
-        x_, y_, res = viz.fit_line(x, y, **scales)
+        x_, y_, res = viz.fit_line(x, y, xhat=x, **scales)
         nptest.assert_array_almost_equal(y_, known_y_linlin_no_ci)
         known_res = {
             'slope': 5.3404377026700995,
@@ -175,7 +175,7 @@ class Test_fit_line(object):
 
     @seed
     def test_xlog_ylog(self):
-        scales = {'fitlogs': 'both', 'fitprobs': None}
+        scales = {'fitlogs': 'xy', 'fitprobs': None}
         x, y = self.data, self.y
         x_, y_, res = viz.fit_line(x, y, xhat=x[::8], estimate_ci=True, **scales)
         nptest.assert_allclose(y_, self.known_y_loglog, rtol=0.0001)
@@ -233,7 +233,7 @@ class Test_fit_line(object):
     def test_xprob_yprob(self):
         p2 = self.probs + numpy.random.uniform(-1, 1, size=len(self.probs))
 
-        scales = {'fitlogs': None, 'fitprobs': 'both'}
+        scales = {'fitlogs': None, 'fitprobs': 'xy'}
         x, y = self.probs, p2,
         x_, y_, res = viz.fit_line(x, y, xhat=x[::8], estimate_ci=True, **scales)
         nptest.assert_allclose(y_, self.known_y_probprob, rtol=0.0001)
@@ -261,6 +261,7 @@ class Test_fit_line(object):
         nptest.assert_array_almost_equal(y_, self.known_custom_yhat)
 
 
+@pytest.mark.skipif(True, reason='old')
 class Test__estimate_from_fit(object):
     def setup(self):
         self.x = numpy.arange(1, 11, 0.5)
@@ -485,37 +486,27 @@ def plot_data():
     return data
 
 
-@pytest.mark.parametrize(('fitlogs', 'known_yhat'), [
-    (None, numpy.array([0.7887, 3.8946, 7.0005, 10.1065, 13.2124, 16.3183])),
-    ('x', numpy.array([0.2711, 1.2784, 1.5988, 1.7953, 1.9373, 2.0487])),
-    ('y', numpy.array([2.2006e+00, 4.9139e+01, 1.0972e+03, 2.4501e+04, 5.4711e+05, 1.2217e+07])),
-    ('both', numpy.array([1.3114, 3.5908, 4.9472, 6.0211, 6.9402, 7.7577])),
-])
-def test__fit_simple(plot_data, fitlogs, known_yhat):
-    x = numpy.arange(1, len(plot_data)+1)
+def test__fit_simple(plot_data):
+    known_yhat = numpy.array([0.7887, 3.8946, 7.0005, 10.1065, 13.2124, 16.3183])
     known_results = {'slope': 0.5177, 'intercept': 0.2711}
+
+    x = numpy.arange(1, len(plot_data)+1)
     xhat = x[::6]
-    yhat, results = viz._fit_simple(x, plot_data, xhat, fitlogs=fitlogs)
+    yhat, results = viz._fit_simple(x, plot_data, xhat)
+
     assert abs(results['intercept'] - known_results['intercept']) < 0.0001
     assert abs(results['slope'] - known_results['slope']) < 0.0001
     nptest.assert_allclose(yhat, known_yhat, rtol=0.0001)
 
 
-@pytest.mark.parametrize(('fitlogs', 'known_lo', 'known_hi'), [
-    (None, numpy.array([-0.7944, 2.7051, 6.1974,  9.2612, 11.9382, 14.4290]),
-           numpy.array([ 2.1447, 4.8360, 7.7140, 10.8646, 14.1014, 17.4432])),
-    ('x', numpy.array([-1.4098, -0.2210, 0.1387, 0.3585, 0.5147, 0.6417]),
-          numpy.array([ 1.7067,  2.5661, 2.8468, 3.0169, 3.1400, 3.2341])),
-    ('y', numpy.array([4.5187e-01, 1.4956e+01, 4.9145e+02, 1.0522e+04, 1.5299e+05, 1.8468e+06]),
-          numpy.array([8.5396e+00, 1.2596e+02, 2.2396e+03, 5.2290e+04, 1.3310e+06, 3.7627e+07])),
-    ('both', numpy.array([0.2442,  0.8017,  1.1488,  1.4312,  1.6731,  1.8997]),
-             numpy.array([5.5107, 13.0148 , 17.232, 20.4285, 23.1035, 25.3843])),
-])
-def test__fit_ci(plot_data, fitlogs, known_lo, known_hi):
-    numpy.random.seed(0)
+@seed
+def test__fit_ci(plot_data):
+    known_lo = numpy.array([-0.7944, 2.7051, 6.1974,  9.2612, 11.9382, 14.4290])
+    known_hi = numpy.array([ 2.1447, 4.8360, 7.7140, 10.8646, 14.1014, 17.4432])
+
     x = numpy.arange(1, len(plot_data)+1)
     xhat = x[::6]
-    yhat_lo, yhat_hi = viz._fit_ci(x, plot_data, xhat, fitlogs=fitlogs, niter=1000)
+    yhat_lo, yhat_hi = viz._fit_ci(x, plot_data, xhat, niter=1000)
 
     nptest.assert_allclose(yhat_lo, known_lo, rtol=0.001)
     nptest.assert_allclose(yhat_hi, known_hi, rtol=0.001)
