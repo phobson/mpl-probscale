@@ -2,8 +2,8 @@
 Using different formulations of plotting positions
 ==================================================
 
-Looking at normal vs Weibull scales + Cunnane vs Weibull plotting positions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computing plotting positions
+----------------------------
 
 When drawing a percentile, quantile, or probability plot, the potting
 positions of ordered data must be computed.
@@ -13,8 +13,8 @@ position of of the :math:`j^\mathrm{th}` element is defined as:
 
 .. math::  \frac{x_{j} - \alpha}{n + 1 - \alpha - \beta } 
 
-In this equation, α and β can take on several values. Common values are
-described below:
+In this equation, α and β can take on several values. Common values
+are described below:
 
     "type 4" (α=0, β=1)
         Linear interpolation of the empirical CDF.
@@ -79,6 +79,9 @@ First let's get some analytical setup out of the way...
         if ax2 is not None:
             ax2.set_ylabel('Weibull Probability Scale')
 
+Normal vs Weibull scales and Cunnane vs Weibull plotting positions
+------------------------------------------------------------------
+
 Here we'll generate some fake, normally distributed data and define a
 Weibull distribution from scipy to use for a probability scale.
 
@@ -95,8 +98,8 @@ probability scales. Additionally, we'll compute the plotting positions
 two different but commone ways for each plot.
 
 First, in blue circles, we'll show the data with Weibull (α=0, β=0)
-plotting positions. Weibull plotting positions are commonly use in my
-field, water resources engineering.
+plotting positions. Weibull plotting positions are commonly use in
+fields such as hydrology and water resources engineering.
 
 In green squares, we'll use Cunnane (α=0.4, β=0.4) plotting positions.
 Cunnane plotting positions are good for normally distributed data and
@@ -104,8 +107,8 @@ are the default values.
 
 .. code:: python
 
-    w_opts = {'label': 'Weibull (α=0, β=0)',     'marker': 'o', 'markeredgecolor': 'b'}
-    c_opts = {'label': 'Cunnane (α=0.4, β=0.4)', 'marker': 's', 'markeredgecolor': 'g'}
+    w_opts = {'label': 'Weibull (a=0, b=0)',     'marker': 'o', 'markeredgecolor': 'b'}
+    c_opts = {'label': 'Cunnane (a=0.4, b=0.4)', 'marker': 's', 'markeredgecolor': 'g'}
     
     common_opts = {
         'markerfacecolor': 'none',
@@ -126,11 +129,14 @@ are the default values.
 
 
 
-.. image:: closer_look_at_plot_pos_files/closer_look_at_plot_pos_8_0.png
+.. image:: closer_look_at_plot_pos_files/output_9_0.png
 
 
 This demostrates that the different formulations of the plotting
 positions vary most at the extreme values of the dataset.
+
+Hazen plotting positions
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Next, let's compare the Hazen/Type 5 (α=0.5, β=0.5) formulation to
 Cunnane. Hazen plotting positions (shown as red triangles) represet a
@@ -142,7 +148,7 @@ values, the plotting position predictably are similar.
 
 .. code:: python
 
-    h_opts = {'label': 'Hazen (α=0.5, β=0.5)', 'marker': '^', 'markeredgecolor': 'r'}
+    h_opts = {'label': 'Hazen (a=0.5, b=0.5)', 'marker': '^', 'markeredgecolor': 'r'}
     fig, (ax1, ax2) = pyplot.subplots(figsize=(10, 8), ncols=2, sharex=True, sharey=False)
     
     for dist, ax in zip([None, weibull], [ax1, ax2]):
@@ -156,8 +162,11 @@ values, the plotting position predictably are similar.
 
 
 
-.. image:: closer_look_at_plot_pos_files/closer_look_at_plot_pos_10_0.png
+.. image:: closer_look_at_plot_pos_files/output_11_0.png
 
+
+Summary
+~~~~~~~
 
 At the risk of showing a very cluttered and hard to read figure, let's
 throw all three on the same normal probability scale:
@@ -176,7 +185,7 @@ throw all three on the same normal probability scale:
 
 
 
-.. image:: closer_look_at_plot_pos_files/closer_look_at_plot_pos_12_0.png
+.. image:: closer_look_at_plot_pos_files/output_13_0.png
 
 
 Again, the different values of α and β don't significantly alter the
@@ -214,4 +223,4 @@ easy comparison.
     Weibull:  [  2.63   5.26   7.89  10.53  13.16  15.79  18.42  21.05  23.68  26.32]
     Cunnane:  [  1.61   4.3    6.99   9.68  12.37  15.05  17.74  20.43  23.12  25.81]
     Hazen:    [  1.35   4.05   6.76   9.46  12.16  14.86  17.57  20.27  22.97  25.68]
-
+    

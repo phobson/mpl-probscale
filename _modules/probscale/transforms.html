@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>probscale.transforms &mdash; probscale 0.2.1 documentation</title>
+  <title>probscale.transforms &mdash; probscale 0.2.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.2.1 documentation" href="../../index.html"/>
+    <link rel="top" title="probscale 0.2.3 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.3
               </div>
             
           
@@ -215,12 +215,12 @@
 <div class="viewcode-block" id="ProbTransform.transform_non_affine"><a class="viewcode-back" href="../../api/transforms.html#probscale.transforms.ProbTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
         <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_out_of_bounds</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">q</span></div>
-
+        <span class="k">return</span> <span class="n">q</span>
+</div>
 <div class="viewcode-block" id="ProbTransform.inverted"><a class="viewcode-back" href="../../api/transforms.html#probscale.transforms.ProbTransform.inverted">[docs]</a>    <span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">QuantileTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">,</span> <span class="n">out_of_bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">out_of_bounds</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">QuantileTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">,</span> <span class="n">out_of_bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">out_of_bounds</span><span class="p">)</span>
 
-
+</div></div>
 <div class="viewcode-block" id="QuantileTransform"><a class="viewcode-back" href="../../api/transforms.html#probscale.transforms.QuantileTransform">[docs]</a><span class="k">class</span> <span class="nc">QuantileTransform</span><span class="p">(</span><span class="n">_ProbTransformMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    MPL axes tranform class to convert probabilities or percents to</span>
@@ -244,8 +244,8 @@
 
 <div class="viewcode-block" id="QuantileTransform.transform_non_affine"><a class="viewcode-back" href="../../api/transforms.html#probscale.transforms.QuantileTransform.transform_non_affine">[docs]</a>    <span class="k">def</span> <span class="nf">transform_non_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span>
-        <span class="k">return</span> <span class="n">prob</span></div>
-
+        <span class="k">return</span> <span class="n">prob</span>
+</div>
 <div class="viewcode-block" id="QuantileTransform.inverted"><a class="viewcode-back" href="../../api/transforms.html#probscale.transforms.QuantileTransform.inverted">[docs]</a>    <span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ProbTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">as_pct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">as_pct</span><span class="p">,</span> <span class="n">out_of_bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">out_of_bounds</span><span class="p">)</span></div></div>
 </pre></div>
@@ -281,7 +281,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.2.1',
+            VERSION:'0.2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>&lt;no title&gt; &mdash; probscale 0.2.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="probscale 0.2.3 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> probscale
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_viz.html">A closer look at probability plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/closer_look_at_plot_pos.html">Using different formulations of plotting positions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API and Source Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">probscale</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/readme.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p># mpl-probscale
+Real probability scales for matplotlib</p>
+<p>[![Build Status](<a class="reference external" href="https://travis-ci.org/phobson/mpl-probscale.svg)](https://travis-ci.org/phobson/mpl-probscale">https://travis-ci.org/phobson/mpl-probscale.svg)](https://travis-ci.org/phobson/mpl-probscale</a>)
+[![codecov](<a class="reference external" href="https://codecov.io/gh/phobson/mpl-probscale/branch/master/graph/badge.svg)](https://codecov.io/gh/phobson/mpl-probscale">https://codecov.io/gh/phobson/mpl-probscale/branch/master/graph/badge.svg)](https://codecov.io/gh/phobson/mpl-probscale</a>)
+[![Code Climate](<a class="reference external" href="https://codeclimate.com/github/phobson/mpl-probscale/badges/gpa.svg)](https://codeclimate.com/github/phobson/mpl-probscale">https://codeclimate.com/github/phobson/mpl-probscale/badges/gpa.svg)](https://codeclimate.com/github/phobson/mpl-probscale</a>)</p>
+<p>[Sphinx Docs](<a class="reference external" href="http://phobson.github.io/mpl-probscale/">http://phobson.github.io/mpl-probscale/</a>)</p>
+<p>## Installation</p>
+<p>### Official releases</p>
+<p>Official releases are available through the conda-forge channel or pip&#8221;
+<cite>conda install mpl-probscale &#8211;channel=conda-forge</cite></p>
+<p><cite>pip install probscale</cite></p>
+<p>### Development builds</p>
+<p>Development builds are available through my conda channel:</p>
+<p><cite>conda install mpl-probscale &#8211;channel=phobson</cite></p>
+<p>## Quick start</p>
+<p>Simply importing <cite>probscale</cite> lets you use probability scales in your matplotlib figures:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+import matplotlib.pyplot as plt
+import probscale
+import seaborn
+clear_bkgd = {&#8216;axes.facecolor&#8217;:&#8217;none&#8217;, &#8216;figure.facecolor&#8217;:&#8217;none&#8217;}
+seaborn.set(style=&#8217;ticks&#8217;, context=&#8217;notebook&#8217;, rc=clear_bkgd)</p>
+<p>fig, ax = plt.subplots(figsize=(8, 4))
+ax.set_ylim(1e-2, 1e2)
+ax.set_yscale(&#8216;log&#8217;)</p>
+<p>ax.set_xlim(0.5, 99.5)
+ax.set_xscale(&#8216;prob&#8217;)
+seaborn.despine(fig=fig)
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>![Alt text](docs/img/example.png &#8220;Example axes&#8221;)</p>
+<p>## Testing</p>
+<p>Testing is generally done via the <code class="docutils literal"><span class="pre">pytest</span></code> and <code class="docutils literal"><span class="pre">numpy.testing</span></code> modules.
+The best way to run the tests is in an interactive python session:</p>
+<p><code class="docutils literal"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">matplotlib</span>
+<span class="pre">matplotib.use('agg')</span>
+<span class="pre">import</span> <span class="pre">probscale</span>
+<span class="pre">probscale.test()</span>
+<span class="pre">`</span></code></p>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Paul Hobson (Geosyntec Consultants).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

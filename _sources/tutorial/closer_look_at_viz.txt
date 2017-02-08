@@ -5,8 +5,8 @@ A closer look at probability plots
 Overview
 --------
 
-The ``probscale.probplot`` function lets you do a couple of things. They
-are:
+The ``probscale.probplot`` function let's you do a couple of things.
+They are:
 
 1. Creating percentile, quantile, or probability plots.
 2. Placing your probability scale either axis.
@@ -71,7 +71,7 @@ If you were doing that from scratch, it would look like this:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_4_0.png
+.. image:: closer_look_at_viz_files/output_4_0.png
 
 
 Using the ``probplot`` function with ``plottype='pp'``, it becomes:
@@ -86,7 +86,7 @@ Using the ``probplot`` function with ``plottype='pp'``, it becomes:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_6_0.png
+.. image:: closer_look_at_viz_files/output_6_0.png
 
 
 Quantile plots
@@ -118,7 +118,7 @@ above, we'll do it from scratch and then using ``probplot``.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_8_0.png
+.. image:: closer_look_at_viz_files/output_8_0.png
 
 
 Using ``probplot``:
@@ -134,7 +134,7 @@ Using ``probplot``:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_10_0.png
+.. image:: closer_look_at_viz_files/output_10_0.png
 
 
 You'll notice that the shape of the data is straighter on the Q-Q plot
@@ -153,7 +153,7 @@ P-P/Q-Q/Probability axis is on the y-scale.
                              scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
     
     fig = probscale.probplot(tips['total_bill'], ax=ax2, plottype='qq', probax='y',
-                             datascale='log', problabel='Normal Quantiles',datalabel='Total Bill (USD)',
+                             datascale='log', problabel='Normal Quantiles', datalabel='Total Bill (USD)',
                              scatter_kws=dict(marker='.', linestyle='none', label='Bill Amount'))
     ax.legend(loc='upper left')
     fig.tight_layout()
@@ -161,7 +161,7 @@ P-P/Q-Q/Probability axis is on the y-scale.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_12_0.png
+.. image:: closer_look_at_viz_files/output_12_0.png
 
 
 In these case of P-P plots and simple Q-Q plots, the ``probplot``
@@ -210,7 +210,7 @@ the previos plot:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_14_0.png
+.. image:: closer_look_at_viz_files/output_14_0.png
 
 
 Visually, shapes of the curves on the right-most plots are identical.
@@ -259,7 +259,7 @@ normal distribution is used.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_16_0.png
+.. image:: closer_look_at_viz_files/output_16_0.png
 
 
 This can also be done for QQ scales:
@@ -294,7 +294,7 @@ This can also be done for QQ scales:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_18_0.png
+.. image:: closer_look_at_viz_files/output_18_0.png
 
 
 Using a specific distribution with a quantile scale can give us an idea
@@ -336,7 +336,7 @@ distribution in the Q-Q plot.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_20_0.png
+.. image:: closer_look_at_viz_files/output_20_0.png
 
 
 Hmm. That doesn't look too good. Let's use scipy's fitting functionality
@@ -357,15 +357,15 @@ to try out a lognormal distribution.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_22_0.png
+.. image:: closer_look_at_viz_files/output_22_0.png
 
 
 That's a little bit better.
 
 Finding the best distribution is left as an exercise to the reader.
 
-Adding best-fit lines
----------------------
+Best-fit lines
+--------------
 
 Adding a best-fit line to a probability plot can provide insight as to
 whether or not a dataset can be characterized by a distribution.
@@ -378,6 +378,9 @@ to the regression based on the plot type and scale of the data axis
 Visual attributes of the line can be controled with the ``line_kws``
 parameter. If you want label the best-fit line, that is where you
 specify its label.
+
+Simple examples
+~~~~~~~~~~~~~~~
 
 The most trivial case is a P-P plot with a linear data axis
 
@@ -393,7 +396,7 @@ The most trivial case is a P-P plot with a linear data axis
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_25_0.png
+.. image:: closer_look_at_viz_files/output_25_0.png
 
 
 The least trivial case is a probability plot with a log-scaled data
@@ -419,7 +422,7 @@ y-axis.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_27_0.png
+.. image:: closer_look_at_viz_files/output_27_0.png
 
 
 Bootstrapped confidence intervals
@@ -444,7 +447,7 @@ the ``estimate_ci=True`` option along with ``bestfit=True``:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_29_0.png
+.. image:: closer_look_at_viz_files/output_29_0.png
 
 
 Tuning the plotting positions
@@ -486,7 +489,7 @@ and are discussed in much more detail in the `next tutorial <closer_look_at_plot
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_32_0.png
+.. image:: closer_look_at_viz_files/output_32_0.png
 
 
 Controlling the aesthetics of the plot elements
@@ -533,7 +536,7 @@ Revisting the previous example, we can customize it like so:
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_34_0.png
+.. image:: closer_look_at_viz_files/output_34_0.png
 
 
 .. note::
@@ -565,7 +568,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_37_0.png
+.. image:: closer_look_at_viz_files/output_37_0.png
 
 
 .. code:: python
@@ -579,7 +582,7 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_38_0.png
+.. image:: closer_look_at_viz_files/output_38_0.png
 
 
 .. code:: python
@@ -593,5 +596,5 @@ work in progress.
 
 
 
-.. image:: closer_look_at_viz_files/closer_look_at_viz_39_0.png
+.. image:: closer_look_at_viz_files/output_39_0.png
 

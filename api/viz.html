@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viz API Reference &mdash; probscale 0.2.1 documentation</title>
+  <title>viz API Reference &mdash; probscale 0.2.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.2.1 documentation" href="../index.html"/>
+    <link rel="top" title="probscale 0.2.3 documentation" href="../index.html"/>
         <link rel="up" title="API and Source Reference" href="../api.html"/>
         <link rel="next" title="probscale API Reference" href="probscale.html"/>
         <link rel="prev" title="API and Source Reference" href="../api.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.3
               </div>
             
           
@@ -89,7 +89,7 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API and Source Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formatters.html"><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transforms.html"><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</a></li>
@@ -118,7 +118,7 @@
         <div class="rst-content">
           
 
- 
+
 
 
 
@@ -148,7 +148,7 @@
 <span id="viz-api-reference"></span><h1><code class="docutils literal"><span class="pre">viz</span></code> API Reference<a class="headerlink" href="#module-probscale.viz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="probscale.viz.probplot">
-<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>problabel=None</em>, <em>datascale='linear'</em>, <em>datalabel=None</em>, <em>bestfit=False</em>, <em>estimate_ci=False</em>, <em>return_best_fit_results=False</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>pp_kws=None</em>, <em>**fgkwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">probscale.viz.</code><code class="descname">probplot</code><span class="sig-paren">(</span><em>data</em>, <em>ax=None</em>, <em>plottype='prob'</em>, <em>dist=None</em>, <em>probax='x'</em>, <em>problabel=None</em>, <em>datascale='linear'</em>, <em>datalabel=None</em>, <em>bestfit=False</em>, <em>return_best_fit_results=False</em>, <em>estimate_ci=False</em>, <em>ci_kws=None</em>, <em>pp_kws=None</em>, <em>scatter_kws=None</em>, <em>line_kws=None</em>, <em>**fgkwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/probscale/viz.html#probplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#probscale.viz.probplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Probability, percentile, and quantile plots.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -202,15 +202,25 @@ respectively.</p>
 <div><p>If True a dictionary of results of is returned along with the
 figure.</p>
 </div></blockquote>
-<p><strong>scatter_kws, line_kws</strong> : dictionary, optional</p>
+<p><strong>estimate_ci</strong> : bool, optional (False)</p>
 <blockquote>
-<div><p>Dictionary of keyword arguments passed directly to <code class="docutils literal"><span class="pre">ax.plot</span></code>
-when drawing the scatter points and best-fit line, respectively.</p>
+<div><p>Estimate and draw a confidence band around the best-fit line
+using a percentile bootstrap.</p>
 </div></blockquote>
-<p><strong>pp_kws</strong> : dictionary, optional</p>
+<p><strong>ci_kws</strong> : dict, optional</p>
+<blockquote>
+<div><p>Dictionary of keyword arguments passed directly to
+<code class="docutils literal"><span class="pre">viz.fit_line</span></code> when computing the best-fit line.</p>
+</div></blockquote>
+<p><strong>pp_kws</strong> : dict, optional</p>
 <blockquote>
 <div><p>Dictionary of keyword arguments passed directly to
 <code class="docutils literal"><span class="pre">viz.plot_pos</span></code> when computing the plotting positions.</p>
+</div></blockquote>
+<p><strong>scatter_kws, line_kws</strong> : dict, optional</p>
+<blockquote>
+<div><p>Dictionary of keyword arguments passed directly to <code class="docutils literal"><span class="pre">ax.plot</span></code>
+when drawing the scatter points and best-fit line, respectively.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -218,7 +228,7 @@ when drawing the scatter points and best-fit line, respectively.</p>
 <blockquote>
 <div><p>The figure on which the plot was drawn.</p>
 </div></blockquote>
-<p><strong>result</strong> : dictionary of linear fit results, optional</p>
+<p><strong>result</strong> : dict of linear fit results, optional</p>
 <blockquote>
 <div><p>Keys are:</p>
 <blockquote>
@@ -242,8 +252,9 @@ is not recommended for general use. Instead colors should be
 specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code> and <code class="docutils literal"><span class="pre">line_kws</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Users should not specify the parameter. It is inteded to only
-be used by seaborn when operating within a FacetGrid.</p>
+<p class="last">Users should not specify this parameter. It is inteded to
+only be used by seaborn when operating within a
+<code class="docutils literal"><span class="pre">FacetGrid</span></code>.</p>
 </div>
 </div></blockquote>
 <p><strong>label</strong> : string, optional</p>
@@ -254,8 +265,9 @@ package and is not recommended for general use. Instead the
 data series label should be specified within <code class="docutils literal"><span class="pre">scatter_kws</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Users should not specify the parameter. It is inteded to only
-be used by seaborn when operating within a FacetGrid.</p>
+<p class="last">Users should not specify this parameter. It is inteded to
+only be used by seaborn when operating within a
+<code class="docutils literal"><span class="pre">FacetGrid</span></code>.</p>
 </div>
 </div></blockquote>
 </td>
@@ -264,18 +276,18 @@ be used by seaborn when operating within a FacetGrid.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-obj docutils literal"><span class="pre">viz.plot_pos</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">numpy.polyfit</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.probplot</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.mstats.plotting_positions</span></code></p>
+<p class="last"><code class="xref py py-obj docutils literal"><span class="pre">viz.plot_pos</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">viz.fit_line</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">numpy.polyfit</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.probplot</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">scipy.stats.mstats.plotting_positions</span></code></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Probability plot with the probabilities on the y-axis</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span><span class="p">;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale.viz</span> <span class="k">import</span> <span class="n">probplot</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span><span class="p">;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale.viz</span> <span class="kn">import</span> <span class="n">probplot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">37</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;prob&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
 <span class="gp">... </span>         <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Non-exceedance probability&#39;</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="gp">... </span>         <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
 </pre></div>
@@ -284,9 +296,9 @@ be used by seaborn when operating within a FacetGrid.</p>
 <img alt="../_images/viz-1.png" src="../_images/viz-1.png" />
 </div>
 <p>Quantile plot with the quantiles on the x-axis</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">probplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="n">probax</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
 <span class="gp">... </span>         <span class="n">problabel</span><span class="o">=</span><span class="s1">&#39;Theoretical Quantiles&#39;</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">datalabel</span><span class="o">=</span><span class="s1">&#39;Observed values&#39;</span><span class="p">,</span> <span class="n">bestfit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="gp">... </span>         <span class="n">line_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">scatter_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
 </pre></div>
@@ -402,8 +414,9 @@ not provided, falls back to the sorted values of <code class="docutils literal">
 <div><p>Defines how data should be transformed. Valid values are
 &#8216;x&#8217;, &#8216;y&#8217;, or &#8216;both&#8217;. If using <code class="docutils literal"><span class="pre">fitprobs</span></code>, variables should
 be expressed as a percentage, i.e.,
-Probablility transform = lambda x: <code class="docutils literal"><span class="pre">dist</span></code>.ppf(x / 100.).
-Log transform = lambda x: numpy.log(x).
+for a probablility transform, data will be transformed with
+<code class="docutils literal"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">dist.ppf(x</span> <span class="pre">/</span> <span class="pre">100.)</span></code>.
+For a log transform, <code class="docutils literal"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">numpy.log(x)</span></code>.
 Take care to not pass the same value to both <code class="docutils literal"><span class="pre">fitlogs</span></code> and
 <code class="docutils literal"><span class="pre">figprobs</span></code> as both transforms will be applied.</p>
 </div></blockquote>
@@ -412,7 +425,20 @@ Take care to not pass the same value to both <code class="docutils literal"><spa
 <div><p>A fully-spec&#8217;d scipy.stats distribution-like object
 such that <code class="docutils literal"><span class="pre">dist.ppf</span></code> and <code class="docutils literal"><span class="pre">dist.cdf</span></code> can be called. If not
 provided, defaults to a minimal implementation of
-scipt.stats.norm.</p>
+<code class="docutils literal"><span class="pre">scipt.stats.norm</span></code>.</p>
+</div></blockquote>
+<p><strong>estimate_ci</strong> : bool, optional (False)</p>
+<blockquote>
+<div><p>Estimate and draw a confidence band around the best-fit line
+using a percentile bootstrap.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, optional (default = 10000)</p>
+<blockquote>
+<div><p>Number of bootstrap iterations if <code class="docutils literal"><span class="pre">estimate_ci</span></code> is provided.</p>
+</div></blockquote>
+<p><strong>alpha</strong> : float, optional (default = 0.05)</p>
+<blockquote>
+<div><p>The confidence level of the bootstrap estimate.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -481,7 +507,7 @@ scipt.stats.norm.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.2.1',
+            VERSION:'0.2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

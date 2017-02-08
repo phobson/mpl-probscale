@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>probscale.validate &mdash; probscale 0.2.1 documentation</title>
+  <title>probscale.validate &mdash; probscale 0.2.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.2.1 documentation" href="../../index.html"/>
+    <link rel="top" title="probscale 0.2.3 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.3
               </div>
             
           
@@ -134,6 +134,8 @@
   <h1>Source code for probscale.validate</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
 
+<span class="kn">from</span> <span class="nn">.algo</span> <span class="kn">import</span> <span class="n">_bs_fit</span>
+
 
 <div class="viewcode-block" id="axes_object"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.axes_object">[docs]</a><span class="k">def</span> <span class="nf">axes_object</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Checks if a value if an Axes. If None, a new one is created.</span>
@@ -150,13 +152,14 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;`ax` must be a matplotlib Axes instance or None&quot;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
 
-
+</div>
 <div class="viewcode-block" id="axis_name"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.axis_name">[docs]</a><span class="k">def</span> <span class="nf">axis_name</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">axname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Checks that an axis name is either &#39;x&#39; or &#39;y&#39;. Raises an error on</span>
-<span class="sd">    an invalid value. Returns the lower cased verion of valid values.</span>
+<span class="sd">    Checks that an axis name is in ``{&#39;x&#39;, &#39;y&#39;}``. Raises an error on</span>
+<span class="sd">    an invalid value. Returns the lower case verion of valid values.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">valid_args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span>
@@ -164,14 +167,15 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Invalid value for {} ({}). Must be on of {}.&#39;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axname</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">valid_args</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-
+</div>
 <div class="viewcode-block" id="fit_argument"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.fit_argument">[docs]</a><span class="k">def</span> <span class="nf">fit_argument</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">argname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Checks that an axis options is either &#39;x&#39;, y&#39;, &#39;both&#39;, or None.</span>
+<span class="sd">    Checks that an axis options is in ``{&#39;x&#39;, y&#39;, &#39;both&#39;, None}``.</span>
 <span class="sd">    Raises an error on an invalid value. Returns the lower case verion</span>
 <span class="sd">    of valid values.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">valid_args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
@@ -181,42 +185,55 @@
     <span class="k">elif</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">arg</span></div>
+    <span class="k">return</span> <span class="n">arg</span>
 
-
+</div>
 <div class="viewcode-block" id="axis_type"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.axis_type">[docs]</a><span class="k">def</span> <span class="nf">axis_type</span><span class="p">(</span><span class="n">axtype</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks that a valid axis type is requested.</span>
-<span class="sd">    pp - percentile axis</span>
-<span class="sd">    qq - quantile axis</span>
-<span class="sd">    prob - probability axis</span>
+
+<span class="sd">      - *pp* - percentile axis</span>
+<span class="sd">      - *qq* - quantile axis</span>
+<span class="sd">      - *prob* - probability axis</span>
 
 <span class="sd">    Raises an error on an invalid value. Returns the lower case verion</span>
 <span class="sd">    of valid values.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">axtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pp&#39;</span><span class="p">,</span> <span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="s1">&#39;prob&#39;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;invalid axtype: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axtype</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">axtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">axtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-
+</div>
 <div class="viewcode-block" id="axis_label"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.axis_label">[docs]</a><span class="k">def</span> <span class="nf">axis_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Replaces None with an empty string for axis labels.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">label</span></div>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">label</span>
 
-
+</div>
 <div class="viewcode-block" id="other_options"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.other_options">[docs]</a><span class="k">def</span> <span class="nf">other_options</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Replaces None with an empty dict for plotting options.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="estimator"><a class="viewcode-back" href="../../api/validate.html#probscale.validate.estimator">[docs]</a><span class="k">def</span> <span class="nf">estimator</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;res&#39;</span><span class="p">,</span> <span class="s1">&#39;resid&#39;</span><span class="p">,</span> <span class="s1">&#39;resids&#39;</span><span class="p">,</span> <span class="s1">&#39;residual&#39;</span><span class="p">,</span> <span class="s1">&#39;residuals&#39;</span><span class="p">]:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Bootstrapping the residuals is not ready yet&#39;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fit&#39;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">]:</span>
+        <span class="n">est</span> <span class="o">=</span> <span class="n">_bs_fit</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;estimator must be either &quot;resid&quot; or &quot;fit&quot;.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">est</span></div>
 </pre></div>
 
            </div>
@@ -250,7 +267,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.2.1',
+            VERSION:'0.2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

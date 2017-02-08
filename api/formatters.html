@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>formatters API Reference &mdash; probscale 0.2.1 documentation</title>
+  <title>formatters API Reference &mdash; probscale 0.2.3 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="probscale 0.2.1 documentation" href="../index.html"/>
+    <link rel="top" title="probscale 0.2.3 documentation" href="../index.html"/>
         <link rel="up" title="API and Source Reference" href="../api.html"/>
         <link rel="next" title="transforms API Reference" href="transforms.html"/>
         <link rel="prev" title="probscale API Reference" href="probscale.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.3
               </div>
             
           
@@ -91,7 +91,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API and Source Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">formatters</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transforms.html"><code class="docutils literal"><span class="pre">transforms</span></code> API Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="validate.html"><code class="docutils literal"><span class="pre">validate</span></code> API Reference</a></li>
 </ul>
@@ -118,7 +118,7 @@
         <div class="rst-content">
           
 
- 
+
 
 
 
@@ -152,7 +152,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.formatters._FormatterMixin</span></code></p>
 <p>Formatter class for MPL axes to display probalities as percentages.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale</span> <span class="k">import</span> <span class="n">formatters</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale</span> <span class="kn">import</span> <span class="n">formatters</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fmt</span> <span class="o">=</span> <span class="n">formatters</span><span class="o">.</span><span class="n">PctFormatter</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fmt</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 <span class="go">&#39;0.2&#39;</span>
@@ -185,7 +185,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">probscale.formatters._FormatterMixin</span></code></p>
 <p>Formatter class for MPL axes to display probalities as decimals.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale</span> <span class="k">import</span> <span class="n">formatters</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">probscale</span> <span class="kn">import</span> <span class="n">formatters</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fmt</span> <span class="o">=</span> <span class="n">formatters</span><span class="o">.</span><span class="n">ProbFormatter</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fmt</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="go">&#39;0.01&#39;</span>
@@ -194,7 +194,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
 <span class="gp">... </span>   <span class="n">fmt</span><span class="p">(</span><span class="mf">10.5</span><span class="p">)</span>
 <span class="gp">... </span><span class="k">except</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;formatter out of bounds&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;formatter out of bounds&#39;</span><span class="p">)</span>
 <span class="go">formatter out of bounds</span>
 </pre></div>
 </div>
@@ -258,7 +258,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.2.1',
+            VERSION:'0.2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
